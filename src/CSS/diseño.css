@@ -19,6 +19,7 @@ body{
 }
 .container-header{
     margin-left: 20px;
+    font-size: 1.3rem;
 }
 
 .link{
@@ -26,4 +27,112 @@ body{
     color: #fff;
     text-decoration: none;
     font-size: 18px;
+    border-radius: 5px;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.link:hover{
+    background-color: #2A2D2B;
+}
+
+form{
+    margin:  50px auto;
+    background-color: #2E4053;
+    width: 700px;
+    padding: 2.5rem;
+    border-radius: 5px;
+}
+
+.forms-grupos{
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    font-size: 19px;
+    font-family: 'Roboto';
+    font-weight: 900;
+}
+
+input[type="text"]{
+    margin: 15px 0;
+    font-size: 19px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #2E4053;
+}
+input[type="email"]{
+    margin: 15px 0;
+    font-size: 19px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #2E4053;
+}
+input[type="number"]{
+    margin: 15px 0;
+    font-size: 19px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #2E4053;
+}
+p{
+    font-size: 19px;   
+}
+.selectOp{
+    margin: 15px 0;
+    font-size: 19px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #2E4053;
+}
+input[type="radio"]{
+    margin-bottom: 15px;
+    font-family: "Roboto";
+    font-weight: 700;
+}
+
+input[type="checkbox"]{
+    margin-bottom: 15px;
+    font-family: "Roboto";
+    font-weight: 700;
+}
+#comentarios{
+    width: 97%;
+    height: 100px;
+    font-size: 1rem;
+    color: #000;
+}
+.button{
+    margin-top: 25px;
+}
+input[type="submit"]{
+    width: 100%;
+    padding: 10px;
+    font-size: 19px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2ECC71;
+    color: #fff;
+    font-family: "Roboto";
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+input[type="submit"]:hover{
+    background-color: #85c1e9;
+}
+.footer{
+    background-color: #212f3c;
+    padding: 3px;
+    display: flex;
+    justify-content: space-between;
+}
+.container-fot{
+    margin-left: 20px;
+    color: #fff;
+    font-size: 11px;
+    font-family: "Open sans";
+    font-weight: 7000;
 }

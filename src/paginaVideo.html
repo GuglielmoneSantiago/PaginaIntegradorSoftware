@@ -8,9 +8,9 @@
     <title>Document</title>
 </head>
 <body>
-    <header class="=header">
+    <header class="header">
         <div class="container-header">
-            <h1>formulario</h1>
+            <h1>Encuesta Satisfacción</h1>
         </div>
         <nav class="menu">
             <a class="link" href="@">a</a>
@@ -35,7 +35,7 @@
         <div class="forms-grupos">
             <p><b>Describe tu rol</b></p>
             <label >
-                <select name="usuario-opcion" id="select">
+                <select name="usuario-opcion" id="select" class="selectOp">
                     <option disabled selected value>Selecciona tu rol</option>
                     <option value="estudiante">Estudiante</option>
                     <option value="profe">Profesor</option>
@@ -47,7 +47,7 @@
             <p><b>Crees que es necesario programar</b></p>
             <label>
                 <input type="radio" name="opcion-user"id="definitivamente">
-                <b>definitivamente</b>
+                <b>Definitivamente</b>
             </label>
             <label>
                 <input type="radio" name="opcion-user" id="quizas">
@@ -60,7 +60,7 @@
         </div>
         <div class="forms-grupos">
             <p><b>Cual crees que es el mejor lenguaje</b></p>
-            <select name="lenguaje-op" id="lenguaje">
+            <select name="lenguaje-op" id="lenguaje" class="selectOp">
                 <option desabled selected value>Seleccione una opcion</option>
                 <option value="java">Java</option>
                 <option value="python">python</option>
@@ -92,5 +92,11 @@
             <input type="submit" value="Enviar">
         </div>
     </form>
+    <footer class="footer">
+        <div class="container-fot">
+            <h2>Hecho por</h2>
+        </div>
+        
+    </footer>
 </body>
 </html>
