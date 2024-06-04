@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/diseño.css">
+    <title>Document</title>
+</head>
+<body>
+    <header class="=header">
+        <div class="container-header">
+            <h1>formulario</h1>
+        </div>
+        <nav class="menu">
+            <a class="link" href="@">a</a>
+            <a class="link" href="@">b</a>
+            <a class="link" href="@">c</a>
+            <a class="link" href="@">d</a>
+        </nav>
+    </header>
+    <form action="@" method="post">
+        <div class="forms-grupos">
+            <label ><b>Name</b></label>
+            <input type="text" name="name-label" id="nombre" placeholder="Ingrese su Nombre" required>
+        </div>
+        <div class="forms-grupos">
+            <label ><b>Email</b></label>
+            <input type="email" name="email-label" id="email" placeholder="Ingrese su Email" required>
+        </div>
+        <div class="forms-grupos">
+            <label ><b>Edad</b></label>
+            <input type="number" name="number-label" id="edad" placeholder="Ingrese su Edad" required>
+        </div>
+        <div class="forms-grupos">
+            <p><b>Describe tu rol</b></p>
+            <label >
+                <select name="usuario-opcion" id="select">
+                    <option disabled selected value>Selecciona tu rol</option>
+                    <option value="estudiante">Estudiante</option>
+                    <option value="profe">Profesor</option>
+                    <option value="ealumno">Alumno</option>
+                </select>
+            </label>
+        </div>
+        <div class="forms-grupos">
+            <p><b>Crees que es necesario programar</b></p>
+            <label>
+                <input type="radio" name="opcion-user"id="definitivamente">
+                <b>definitivamente</b>
+            </label>
+            <label>
+                <input type="radio" name="opcion-user" id="quizas">
+                <b>Quizas</b>
+            </label>
+            <label>
+                <input type="radio" name="opcion-user"id="jamas">
+                <b>Jamas</b>
+            </label>
+        </div>
+        <div class="forms-grupos">
+            <p><b>Cual crees que es el mejor lenguaje</b></p>
+            <select name="lenguaje-op" id="lenguaje">
+                <option desabled selected value>Seleccione una opcion</option>
+                <option value="java">Java</option>
+                <option value="python">python</option>
+                <option value="java script">Javas script</option>
+            </select>
+        </div>
+        <div class="forms-grupos">
+            <p><b>A que rama de la informatica quieres</b></p>
+            <label>
+                <input type="checkbox" name="front"id="selection-user">
+                <b>Front-End</b>
+            </label>
+            <label>
+                <input type="checkbox" name="back"id="selection-user">
+                <b>Back-End</b>s
+            </label>
+            <label>
+                <input type="checkbox" name="full"id="selection-user">
+                <b>Full Stack</b>
+            </label>
+        </div>
+        <div class="forms-grupos">
+            <p><b>Escribe tus comentarios</b></p>
+            <label>
+                <input type="text" name="comments" id="comentarios" placeholder="Escribenos un comentario">
+            </label>
+        </div>
+        <div class="button">
+            <input type="submit" value="Enviar">
+        </div>
+    </form>
+</body>
+</html>

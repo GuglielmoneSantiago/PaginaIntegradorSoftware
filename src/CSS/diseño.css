@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap%27%29%3B');
+@import url('https://fonts.googleapis.com/css2?family=Roboto%3Awght%40300&display=swap%27%29%3B');
+
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    background-image: url('https://img.freepik.com/fotos-premium/fondo-papel-abstracto-color-azul_78899-602.jpg?w=2000');
+}
+.header{
+    background-color: #46D65B;
+    padding: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Open sans";
+    color: #fff;
+    
+}
+.container-header{
+    margin-left: 20px;
+}
+
+.link{
+    margin-right: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}

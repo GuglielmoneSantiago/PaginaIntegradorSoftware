@@ -1,0 +1,19 @@
+{
+  "name": "patronmediator",
+  "version": "1.0.0",
+  "description": "Patron Mediator",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "mediator",
+    "testing",
+    "jest"
+  ],
+  "author": "Gonzalo Mata",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
