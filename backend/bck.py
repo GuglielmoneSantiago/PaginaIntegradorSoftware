@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Form, HTTPException, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI, Form, HTTPException, Request,Response
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pymongo import MongoClient
 from pydantic import BaseModel
@@ -58,10 +58,19 @@ async def read_form(
             "comments": comments
         }
         # Insertar el documento en MongoDB
-        result = collection.insert_one(document)
-        return {"message": "Datos recibidos correctamente"}
+        result=collection.insert_one(document)
+        if not result.acknowledged:
+            raise HTTPException(status_code=500, detail="Error al insertar datos en MongoDB")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    return Response(status_code=303, headers={"Location": "/finalEncuesta.html"})
+@app.get("/finalEncuesta.html", response_class=HTMLResponse)
+async def get_final_encuesta():
+    with open("../src/finalEncuesta.html", encoding="utf-8") as f:
+        content = f.read()
+        
+    return HTMLResponse(content=content)
+
 @app.get("/graph", response_class=HTMLResponse)
 async def get_graph():
     try:
