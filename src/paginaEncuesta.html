@@ -13,7 +13,7 @@
             <h1>Encuesta Satisfacción</h1>
         </div>
     </header>
-    <form method="post" action="/submit">
+    <form method="get" action="finalEncuesta.html">
         <div class="forms-grupos">
             <label><b>Name</b></label>
             <input type="text" name="name" id="nombre" placeholder="Ingrese su Nombre" required>
@@ -29,7 +29,7 @@
         <div class="forms-grupos">
             <p><b>Describe tu rol</b></p>
             <label>
-                <select name="role" id="select" class="selectOp">
+                <select name="role" id="select" class="selectOp" required>
                     <option disabled selected value>Selecciona tu rol</option>
                     <option value="estudiante">Estudiante</option>
                     <option value="profe">Profesor</option>
