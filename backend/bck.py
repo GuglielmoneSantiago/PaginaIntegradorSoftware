@@ -3,7 +3,9 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pymongo import MongoClient
 from pydantic import BaseModel
+from typing import List, Optional
 from starlette.responses import JSONResponse
+from motor.motor_asyncio import AsyncIOMotorClient
 import uvicorn
 import asyncio
 
@@ -12,6 +14,10 @@ app = FastAPI()
 # Conexión a MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 db = client["encuesta_db"]
+# Verificar y crear la colección "responses" si no existe
+if "encuestas" not in db.list_collection_names():
+    db.create_collection("encuestas")
+
 collection = db["encuestas"]
 
 # Montar los archivos estáticos (CSS)
@@ -32,11 +38,11 @@ async def read_form(
     email: str = Form(...),
     age: int = Form(...),
     role: str = Form(...),
-    programming_necessity: str = Form(...),
+    programming: str = Form(...),
     best_language: str = Form(...),
-    interests: list[str] = Form(...),
-    satisfaction_level: int = Form(...),
-    comments: str = Form(None)
+    interest: List[str] = Form(...),
+    satisfactionRange: int = Form(...),
+    comments: Optional[str] = Form(None)
 ):
     try:
         # Crear el documento a insertar en MongoDB
@@ -45,18 +51,17 @@ async def read_form(
             "email": email,
             "age": age,
             "role": role,
-            "programming_necessity": programming_necessity,
+            "programming": programming,
             "best_language": best_language,
-            "interests": interests,
-            "satisfaction_level": satisfaction_level,
+            "interest": interest,
+            "satisfactionRange": satisfactionRange,
             "comments": comments
         }
         # Insertar el documento en MongoDB
-        collection.insert_one(document)
+        result = collection.insert_one(document)
         return {"message": "Datos recibidos correctamente"}
-    except asyncio.CancelledError:
-        return {"message": "La tarea fue cancelada"}
-
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 @app.get("/graph", response_class=HTMLResponse)
 async def get_graph():
     try:
