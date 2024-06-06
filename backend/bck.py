@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Form, HTTPException, Request,Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -20,42 +21,49 @@ if "encuestas" not in db.list_collection_names():
 
 collection = db["encuestas"]
 
-# Montar los archivos estáticos (CSS)
-app.mount("/src/CSS", StaticFiles(directory="../src/CSS"), name="static")
+# Construir la ruta absoluta al directorio CSS
+directorio_css = os.path.join(os.path.dirname(__file__), '../src/CSS')
+prueba4_html = os.path.join(os.path.dirname(__file__), '../src/HTML/Prueba4.html')
+html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/finalEncuesta.html')
 
+
+# Montar el directorio estático
+app.mount("/static", StaticFiles(directory="src/CSS"), name="static")
 
 
 @app.get("/", response_class=HTMLResponse)
 async def get_form():
-    with open("../src/paginaEncuesta.html", encoding="utf-8") as f:
+    with open(prueba4_html, encoding="utf-8") as f:
         content = f.read()
         return HTMLResponse(content=content, headers={"Content-Type": "text/html; charset=utf-8"})
 
 
 @app.post("/submit")
 async def read_form(
-    name: str = Form(...),
-    email: str = Form(...),
-    age: int = Form(...),
-    role: str = Form(...),
-    programming: str = Form(...),
-    best_language: str = Form(...),
-    interest: List[str] = Form(...),
-    satisfactionRange: int = Form(...),
-    comments: Optional[str] = Form(None)
+    birth_year: int = Form(...),
+    gender: str = Form(...),
+    textura: str = Form(...),
+    consistencia: str = Form(...),
+    chocolate: str = Form(...),
+    atraccion: str = Form(...),
+    expectativa: str = Form(...),
+    humedad: str = Form(...),
+    sabores: str = Form(...),
+    respuesta7: str = Form(...)
 ):
     try:
         # Crear el documento a insertar en MongoDB
         document = {
-            "name": name,
-            "email": email,
-            "age": age,
-            "role": role,
-            "programming": programming,
-            "best_language": best_language,
-            "interest": interest,
-            "satisfactionRange": satisfactionRange,
-            "comments": comments
+            "birth_year": birth_year,
+            "gender": gender,
+            "textura": textura,
+            "consistencia": consistencia,
+            "chocolate": chocolate,
+            "atraccion": atraccion,
+            "expectativa": expectativa,
+            "humedad": humedad,
+            "sabores": sabores,
+            "respuesta7": respuesta7
         }
         # Insertar el documento en MongoDB
         result=collection.insert_one(document)
@@ -66,7 +74,7 @@ async def read_form(
     return Response(status_code=303, headers={"Location": "/finalEncuesta.html"})
 @app.get("/finalEncuesta.html", response_class=HTMLResponse)
 async def get_final_encuesta():
-    with open("../src/finalEncuesta.html", encoding="utf-8") as f:
+    with open(html_directory_final, encoding="utf-8") as f:
         content = f.read()
         
     return HTMLResponse(content=content)
@@ -105,4 +113,4 @@ async def get_graph():
         return {"message": "La tarea fue cancelada"}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)
