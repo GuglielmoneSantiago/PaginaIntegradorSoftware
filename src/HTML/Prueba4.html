@@ -12,11 +12,13 @@
   }
   .input-texto {
   display: block; /* Hace que el input ocupe su propia línea */
-  width: 100%; /* Ocupa el ancho completo del contenedor */
-  margin-top: 10px; /* Espacio arriba del input */
+  width: 96%; /* Ocupa el 80% del ancho del contenedor */
+  margin: 10px auto; /* Espacio arriba y abajo del input y margen automático a los lados */
   padding: 10px; /* Espacio dentro del input */
   box-sizing: border-box; /* Incluye el padding en el cálculo del ancho */
 }
+
+
 
   .container {
     background-color: #fff;
@@ -34,7 +36,7 @@
     display: flex;
     width: 100%;
     gap: 8px;
-    font-size: 16px;
+    font-size: 26px;
     font-weight: 800;
     white-space: nowrap;
   }
@@ -76,7 +78,7 @@
   color: var(--Neutral-800, #191d23);
   justify-content: center;
   margin-top: 22px;
-  padding: 0px; /* Añade un espacio de 20px alrededor del contenido dentro del contenedor */
+  padding: 10px; /* Añade un espacio de 20px alrededor del contenido dentro del contenedor */
 }
   .question {
     font-family: Manrope, sans-serif;
@@ -103,16 +105,16 @@
       padding: 12px;
     }
     .logo {
-      width: 48px;
+      width: 38px;
     }
     .company-name {
-      font-size: 14px;
+      font-size: 34px;
     }
     .product-title {
-      font-size: 18px;
+      font-size: 30px;
     }
     .product-description {
-      font-size: 12px;
+      font-size: 20px;
     }
     .question-container {
       margin-top: 20px;
@@ -131,8 +133,7 @@
     
 <section class="container">
   <header class="header">
-    <img src="logo.png" class="logo" alt="Company Logo" />
-    <div class="company-name">AcmeSystems</div>
+    <div class="company-name">Integrador InterCarrera</div>
   </header>
   <h2 class="product-title">Producto #1</h2>
   <p class="product-description">
@@ -385,7 +386,7 @@
 <div class="question-container">
   <label for="question8" class="question">Pregunta 8:</label>
   <div class="form-group">
-    <label>¿El producto cumplió tus expectativas?</label>
+    <label>¿Que otros sabores percibiste?</label>
     <!-- Input de texto agregado aquí -->
     <input type="text" id="respuesta7" name="respuesta7" class="input-texto" placeholder="Escribe tu respuesta aquí">
   </div>
