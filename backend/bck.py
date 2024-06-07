@@ -40,15 +40,15 @@ async def get_form():
 
 @app.post("/submit")
 async def read_form(
-    birth_year: int = Form(...),
-    gender: str = Form(...),
-    textura: str = Form(...),
-    consistencia: str = Form(...),
-    chocolate: str = Form(...),
-    atraccion: str = Form(...),
-    expectativa: str = Form(...),
-    humedad: str = Form(...),
-    sabores: str = Form(...),
+    birth_year: Optional [int] = Form(...),
+    gender: Optional [str] = Form(...),
+    textura: Optional [str] = Form(...),
+    consistencia: Optional [str] = Form(...),
+    chocolate: Optional [str] = Form(...),
+    atraccion: Optional [str] = Form(...),
+    expectativa: Optional [str] = Form(...),
+    humedad: Optional [str] = Form(...),
+    sabores: Optional [str] = Form(...),
     respuesta7: str = Form(...)
 ):
     try:
