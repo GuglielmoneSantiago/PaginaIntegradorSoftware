@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 from starlette.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
+import plotly.graph_objects as go
 import uvicorn
 import asyncio
 
@@ -28,7 +29,7 @@ html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/fina
 
 
 # Montar el directorio estático
-app.mount("/static", StaticFiles(directory="src/CSS"), name="static")
+app.mount("/static", StaticFiles(directory=directorio_css), name="static")
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -79,17 +80,21 @@ async def get_final_encuesta():
         
     return HTMLResponse(content=content)
 
-@app.get("/graph", response_class=HTMLResponse)
+@app.get("/graph")
 async def get_graph():
     try:
         # Extraer datos de la base de datos para el gráfico
         cursor = collection.find({})
-        satisfaction_levels = [doc["satisfaction_level"] for doc in cursor]
-        # Crear el gráfico tipo telaraña
-        # Aquí, debes implementar la lógica para crear el gráfico con Plotly y devolverlo como HTML
-        # Este es un ejemplo simple que necesitas adaptar
-        import plotly.graph_objects as go
+        satisfaction_levels = []
+        for doc in cursor:
+            if 'satisfaction_level' in doc:
+                satisfaction_levels.append(doc["satisfaction_level"])
+            else:
+                # Manejo de documentos sin el campo 'satisfaction_level'
+                # Puedes decidir ignorar estos documentos o realizar algún otro tipo de manejo
+                pass
 
+        # Crear el gráfico tipo telaraña
         categories = ['Muy insatisfecho', 'Insatisfecho', 'Neutral', 'Satisfecho', 'Muy satisfecho']
         fig = go.Figure()
         fig.add_trace(go.Scatterpolar(
@@ -108,9 +113,9 @@ async def get_graph():
         )
 
         graph_html = fig.to_html(full_html=False)
-        return HTMLResponse(content=graph_html)
-    except asyncio.CancelledError:
-        return {"message": "La tarea fue cancelada"}
+        return JSONResponse(content={"graph": graph_html}, media_type="application/json; charset=utf-8")
+    except Exception as e:
+        return {"error": str(e)}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
