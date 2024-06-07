@@ -63,7 +63,7 @@
     align-self: flex-start;
   }
   .question-container {
-  width: 100%;
+  width: 90%;
   border-radius: 10px;
   border: 2px solid rgba(5, 150, 105, 1);
   background-color: #faf4f4;
@@ -72,7 +72,7 @@
   color: var(--Neutral-800, #191d23);
   justify-content: center;
   margin-top: 22px;
-  padding: 10px; /* Añade un espacio de 20px alrededor del contenido dentro del contenedor */
+  padding: 10px; /* Añade un espacio de 10px alrededor del contenido dentro del contenedor */
 }
   .question {
     font-family: Manrope, sans-serif;
