@@ -1,36 +1,33 @@
-from locust import HttpUser, task, between
+from locust import HttpUser, TaskSet, task, between
+from faker import Faker
 import random
 
-class UserBehavior(HttpUser):
-    wait_time = between(1, 5)
-    host = "http://127.0.0.1:8000"  # Especifica el host aquí
+fake = Faker()
 
+class UserBehavior(TaskSet):
     @task
     def submit_form(self):
-        data = self.generate_random_data()
-        self.client.post("/submit", data=data)
-
-    def generate_random_data(self):
-        birth_year = random.randint(1960, 2020)
-        gender = random.choice(["male", "female", "other"])
-        textura = random.choice(["suave", "rugosa", "crujiente"])
-        consistencia = random.choice(["firme", "blanda", "líquida"])
-        chocolate = random.choice(["amargo", "dulce", "semidulce"])
-        atraccion = random.choice(["alta", "media", "baja"])
-        expectativa = random.choice(["alta", "media", "baja"])
-        humedad = random.choice(["seca", "húmeda", "muy húmeda"])
-        sabores = random.choice(["intenso", "moderado", "suave"])
-        respuesta7 = random.choice(["sí", "no", "quizás"])
-
-        return {
-            "birth_year": birth_year,
-            "gender": gender,
-            "textura": textura,
-            "consistencia": consistencia,
-            "chocolate": chocolate,
-            "atraccion": atraccion,
-            "expectativa": expectativa,
-            "humedad": humedad,
-            "sabores": sabores,
-            "respuesta7": respuesta7
+        # Datos del formulario generados aleatoriamente
+        form_data = {
+            'birth_year': random.randint(1950, 2010),
+            'gender': random.choice(['Male', 'Female', 'Other']),
+            'textura': random.choice(['Suave', 'Rugosa', 'Fina', 'Gruesa']),
+            'consistencia': random.choice(['Firme', 'Blanda', 'Media']),
+            'satisfactionRange': random.randint(1, 5),
+            'satisfactionRange_4': random.randint(1, 5),
+            'satisfactionRange_5': random.randint(1, 5),
+            'humedad': random.choice(['Alta', 'Media', 'Baja']),
+            'sabores': random.choice(['Dulce', 'Salado', 'Amargo', 'Ácido']),
+            'respuesta7': fake.sentence()
         }
+        
+        self.client.post("/submit", data=form_data)
+
+class WebsiteUser(HttpUser):
+    tasks = [UserBehavior]
+    wait_time = between(1, 5)
+
+if __name__ == "__main__":
+    import os
+    os.system("locust -f locustfile.py --host http://localhost:8000")
+
