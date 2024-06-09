@@ -97,6 +97,21 @@
         <div class="button">
             <input type="submit" value="Enviar">
         </div>
+        <div class="container">
+            <h1>Survey Question</h1>
+            <form id="surveyForm">
+                <label for="satisfaction">How satisfied are you with our service?</label>
+                <input type="range" id="satisfaction" name="satisfaction" min="0" max="100" value="50" oninput="updateSliderValue(this.value)">
+                <div class="labels">
+                    <span>Poco Satisfecho</span>
+                    <span id="sliderValue">50</span>%
+                    <span>Muy Satisfecho</span>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            <div id="result"></div>
+        </div>
+        <script src="/src/JS/script.js"></script>
     </form>
     <footer class="footer">
         <div class="container-fot">
