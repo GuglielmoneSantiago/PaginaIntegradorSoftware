@@ -157,3 +157,7 @@
     border-radius: 50%;
     background: #4CAF50;
     cursor: pointer;
+}
+.spanDerecha{
+  margin-left: 71%;
+}
