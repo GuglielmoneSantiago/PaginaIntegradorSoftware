@@ -7,7 +7,7 @@ app.use(express.static('public'));
 
 // Route to get survey results
 app.get('/api/results', (req, res) => {
-    const surveyResults = require('./data/survey.json');
+    const surveyResults = require("./src/surve");
     res.json(surveyResults);
 });
 

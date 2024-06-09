@@ -1,0 +1,21 @@
+[
+    {
+        "question": "What is your favorite color?",
+        "answers": [
+            {"text": "Red", "percentage": 25},
+            {"text": "Blue", "percentage": 35},
+            {"text": "Green", "percentage": 20},
+            {"text": "Yellow", "percentage": 10},
+            {"text": "Other", "percentage": 10}
+        ]
+    },
+    {
+        "question": "What is your favorite food?",
+        "answers": [
+            {"text": "Pizza", "percentage": 40},
+            {"text": "Burgers", "percentage": 30},
+            {"text": "Pasta", "percentage": 20},
+            {"text": "Salad", "percentage": 10}
+        ]
+    }
+]

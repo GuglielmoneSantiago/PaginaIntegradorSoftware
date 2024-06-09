@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/static/disenioPrueba4.css">
+<link rel="stylesheet" href="/src/CSS/disenioPrueba4.css">
 </head>
 <body>
     
@@ -107,32 +107,14 @@
         <!-- Pregunta 3 -->
         <div class="question-container">
           <label for="question3" class="question">Pregunta 3:</label>
-          <div class="form-group">
-            <label>¿Qué tanto se siente el sabor a chocolate?</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho1" value="Mucho">
-                <label class="form-check-label" for="cho1">
-                    Mucho
-                </label>
+          <div class="forms-grupos">
+            <p><b>¿Qué tan satisfecho estás con nuestro servicio?</b></p>
+            <input type="range" class="slider" id="satisfactionRange" name="satisfactionRange" min="1" max="5">
+            <div class="d-flex justify-content-between">
+                <span>Muy insatisfecho</span>
+                <span class="spanDerecha">Muy satisfecho</span>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho2" value="Suficiente">
-                <label class="form-check-label" for="cho2">
-                    Suficiente
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho3" value="Poco">
-                <label class="form-check-label" for="cho3">
-                    Poco
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho4" value="Nada">
-                <label class="form-check-label" for="cho4">
-                    Nada
-                </label>
-            </div>
+        </div>
           </div>
         </div>
         <!-- Pregunta 4 -->
