@@ -36,7 +36,7 @@ if "encuestas" not in db.list_collection_names():
 collection = db["encuestas"]
 
 # Construir la ruta absoluta al directorio CSS
-pagina_Resultado= os.path.join(os.path.dirname(__file__), '../src/HTML/paginaResultado.html')
+pagina_Resultado= os.path.join(os.path.dirname(__file__), '../src/HTML/paginarResultados.html')
 directorio_css = os.path.join(os.path.dirname(__file__), '../src/CSS')
 prueba4_html = os.path.join(os.path.dirname(__file__), '../src/HTML/Prueba4.html')
 html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/finalEncuesta.html')
@@ -106,20 +106,29 @@ def obtener_datos_encuestas():
 
 def generar_grafico_telarana(categorias, valores):
     fig, ax = plt.subplots(figsize=(10, 6), subplot_kw=dict(polar=True))
-    valores_promedio = [sum(valores[i]) / len(valores[i]) for i in range(len(categorias))]
-    ax.fill(
-        [*range(len(categorias)), 0],
-        valores_promedio + [valores_promedio[0]],
-        alpha=0.25, color='b'
-    )
-    ax.set_theta_offset(-0.5)
+    
+    # Calcular los valores promedio y agregar el primer valor al final para cerrar el gráfico
+    valores_promedio = [sum(valores[i]) / len(valores[i]) if len(valores[i]) > 0 else 0 for i in range(len(categorias))]
+    valores_promedio.append(valores_promedio[0])  # Cerrar el gráfico
+    
+    # Ajustar los ángulos de las categorías
+    angulos = [n / float(len(categorias)) * 2 * pi for n in range(len(categorias))]
+    angulos.append(angulos[0])
+
+    ax.fill(angulos, valores_promedio, alpha=0.25, color='b')
+    ax.plot(angulos, valores_promedio, color='b')
+
+    ax.set_theta_offset(pi / 2)
     ax.set_theta_direction(-1)
+
     ax.set_thetagrids([i * (360 / len(categorias)) for i in range(len(categorias))], categorias)
     ax.set_ylim(0, 5)
-    ax.set_title('Telaraña de Resultados de la Encuesta')
+
+    ax.set_title('Telaraña de Resultados de la Encuesta', size=20, color='black', y=1.1,pad=1)
+    
     return fig
 
-  
+ 
 @app.get("/graph", response_class=JSONResponse)
 async def get_graph():
     categorias, datos_encuestas = obtener_datos_encuestas()
@@ -165,6 +174,11 @@ async def view_graph():
 
     return HTMLResponse(content=html_content, headers={"Content-Type": "text/html; charset=utf-8"})
 
-    
+@app.get("/ver_grafico", response_class=HTMLResponse)
+async def get_form():
+    with open(pagina_Resultado, encoding="utf-8") as f:
+        content = f.read()
+        return HTMLResponse(content=content, headers={"Content-Type": "text/html; charset=utf-8"})
+
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
