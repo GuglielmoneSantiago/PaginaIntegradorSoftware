@@ -1,7 +1,7 @@
 import os
 import tempfile
 from fastapi import FastAPI, Form, HTTPException, Request,Response
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from matplotlib import pyplot as plt
 from pymongo import MongoClient
@@ -32,10 +32,8 @@ directorio_css = os.path.join(os.path.dirname(__file__), '../src/CSS')
 prueba4_html = os.path.join(os.path.dirname(__file__), '../src/HTML/Prueba4.html')
 html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/finalEncuesta.html')
 
-
 # Montar el directorio estático
 app.mount("/static", StaticFiles(directory=directorio_css), name="static")
-
 
 @app.get("/", response_class=HTMLResponse)
 async def get_form():
@@ -43,18 +41,17 @@ async def get_form():
         content = f.read()
         return HTMLResponse(content=content, headers={"Content-Type": "text/html; charset=utf-8"})
 
-
 @app.post("/submit")
 async def read_form(
-    birth_year: Optional [int] = Form(...),
-    gender: Optional [str] = Form(...),
-    textura: Optional [str] = Form(...),
-    consistencia: Optional [str] = Form(...),
-    chocolate: Optional [str] = Form(...),
-    atraccion: Optional [str] = Form(...),
-    expectativa: Optional [str] = Form(...),
-    humedad: Optional [str] = Form(...),
-    sabores: Optional [str] = Form(...),
+    birth_year: Optional[int] = Form(...),
+    gender: Optional[str] = Form(...),
+    textura: Optional[str] = Form(...),
+    consistencia: Optional[str] = Form(...),
+    satisfactionRange: Optional[int] = Form(...),
+    satisfactionRange_4: Optional[int] = Form(...),
+    satisfactionRange_5: Optional[int] = Form(...),
+    humedad: Optional[str] = Form(...),
+    sabores: Optional[str] = Form(...),
     respuesta7: str = Form(...)
 ):
     try:
@@ -64,26 +61,27 @@ async def read_form(
             "genero": gender,
             "textura": textura,
             "consistencia": consistencia,
-            "chocolate": chocolate,
-            "atraccion": atraccion,
-            "expectativa": expectativa,
+            "chocolate": satisfactionRange,
+            "atraccion": satisfactionRange_4,
+            "expectativa": satisfactionRange_5 ,
             "humedad": humedad,
             "sabores": sabores,
             "respuesta": respuesta7
         }
         # Insertar el documento en MongoDB
-        result=collection.insert_one(document)
+        result = collection.insert_one(document)
         if not result.acknowledged:
             raise HTTPException(status_code=500, detail="Error al insertar datos en MongoDB")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     return Response(status_code=303, headers={"Location": "/finalEncuesta.html"})
+
 @app.get("/finalEncuesta.html", response_class=HTMLResponse)
 async def get_final_encuesta():
     with open(html_directory_final, encoding="utf-8") as f:
         content = f.read()
-        
     return HTMLResponse(content=content)
+
 
 def obtener_datos_encuestas():
     cursor = collection.find({})
