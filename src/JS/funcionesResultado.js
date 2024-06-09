@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+        const response = await fetch('/graph');
+        const data = await response.text();
+    
+        const graficoTelarana = document.getElementById('graficoTelarana');
+        graficoTelarana.src = data;
+    });
+    
     const response = await fetch('/api/results');
     const data = await response.json();
 

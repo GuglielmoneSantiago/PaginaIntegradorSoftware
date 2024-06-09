@@ -4,13 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Survey Results</title>
-    <link rel="stylesheet" href="/src/CSS/paginaResultados.css">
+    <link rel="stylesheet" href="/static/CSS/paginaResultados.css">
+    <style>
+        /* Estilos adicionales para el contenedor de la imagen */
+        #graficoTelarana {
+            margin-top: 20px; /* Espacio superior para separar del título */
+            max-width: 100%; /* Para asegurarse de que la imagen se ajuste al contenedor */
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Survey Results</h1>
-        <div id="results"></div>
+        <div id="results">
+            <!-- Contenedor para mostrar el gráfico de telaraña -->
+            <img id="graficoTelarana" src="" alt="Grafico de Telaraña">
+        </div>
     </div>
     <script src="/src/JS/funcionesResultado.js"></script>
+    <script>
+        fetch('http://localhost:8000/graph')
+            .then(response => response.json())
+            .then(data => {
+                const imagenBase64 = data.imagen_base64;
+                const imgElement = document.getElementById('graficoTelarana');
+                imgElement.src = `data:image/png;base64,${imagenBase64}`;
+            })
+            .catch(error => console.error('Error:', error));
+    </script>
 </body>
 </html>

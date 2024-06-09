@@ -1,15 +1,20 @@
 import os
+import tempfile
 from fastapi import FastAPI, Form, HTTPException, Request,Response
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from matplotlib import pyplot as plt
 from pymongo import MongoClient
 from pydantic import BaseModel
 from typing import List, Optional
 from starlette.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
+from grafico_telarania import generar_grafico_telarana
 import plotly.graph_objects as go
 import uvicorn
 import asyncio
+from io import BytesIO
+import base64
 
 app = FastAPI()
 
@@ -55,8 +60,8 @@ async def read_form(
     try:
         # Crear el documento a insertar en MongoDB
         document = {
-            "birth_year": birth_year,
-            "gender": gender,
+            "edad": birth_year,
+            "genero": gender,
             "textura": textura,
             "consistencia": consistencia,
             "chocolate": chocolate,
@@ -64,7 +69,7 @@ async def read_form(
             "expectativa": expectativa,
             "humedad": humedad,
             "sabores": sabores,
-            "respuesta7": respuesta7
+            "respuesta": respuesta7
         }
         # Insertar el documento en MongoDB
         result=collection.insert_one(document)
@@ -80,42 +85,37 @@ async def get_final_encuesta():
         
     return HTMLResponse(content=content)
 
+def obtener_datos_encuestas():
+    cursor = collection.find({})
+    datos_encuestas = {
+        'crujiente': 0,
+        'blanda': 0,
+        'dura': 0,
+        'suave': 0,
+        
+    }
+    for doc in cursor:
+        if 'textura' in doc:
+            textura = doc['textura']
+            if textura in datos_encuestas:
+                datos_encuestas[textura] += 1
+    return datos_encuestas
+
 @app.get("/graph")
 async def get_graph():
-    try:
-        # Extraer datos de la base de datos para el gráfico
-        cursor = collection.find({})
-        satisfaction_levels = []
-        for doc in cursor:
-            if 'satisfaction_level' in doc:
-                satisfaction_levels.append(doc["satisfaction_level"])
-            else:
-                # Manejo de documentos sin el campo 'satisfaction_level'
-                # Puedes decidir ignorar estos documentos o realizar algún otro tipo de manejo
-                pass
+    datos_encuestas = obtener_datos_encuestas()
+    imagen_telarana = generar_grafico_telarana(datos_encuestas)
+    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmpfile:
+        imagen_telarana.savefig(tmpfile.name, format="png")
 
-        # Crear el gráfico tipo telaraña
-        categories = ['Muy insatisfecho', 'Insatisfecho', 'Neutral', 'Satisfecho', 'Muy satisfecho']
-        fig = go.Figure()
-        fig.add_trace(go.Scatterpolar(
-            r=satisfaction_levels,
-            theta=categories,
-            fill='toself'
-        ))
+    # Leer el archivo temporal y convertirlo en una cadena base64
+        with open(tmpfile.name, "rb") as image_file:
+            imagen_base64 = base64.b64encode(image_file.read()).decode("utf-8")
 
-        fig.update_layout(
-            polar=dict(
-                radialaxis=dict(
-                    visible=True,
-                    range=[0, 5]
-                )),
-            showlegend=False
-        )
+    # Construir el fragmento de HTML con la imagen base64
+    html_content = f'<img src="data:image/png;base64,{imagen_base64}" alt="Grafico de Telarana">'
+    return HTMLResponse(content=html_content)
 
-        graph_html = fig.to_html(full_html=False)
-        return JSONResponse(content={"graph": graph_html}, media_type="application/json; charset=utf-8")
-    except Exception as e:
-        return {"error": str(e)}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
