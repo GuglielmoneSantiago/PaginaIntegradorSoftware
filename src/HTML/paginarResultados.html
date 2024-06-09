@@ -20,17 +20,28 @@
             <!-- Contenedor para mostrar el gráfico de telaraña -->
             <img id="graficoTelarana" src="" alt="Grafico de Telaraña">
         </div>
+        <button id="redirectButton">Redirect to Another Page</button>
     </div>
-    <script src="/src/JS/funcionesResultado.js"></script>
     <script>
-        fetch('http://localhost:8000/graph')
-            .then(response => response.json())
-            .then(data => {
-                const imagenBase64 = data.imagen_base64;
-                const imgElement = document.getElementById('graficoTelarana');
-                imgElement.src = `data:image/png;base64,${imagenBase64}`;
-            })
-            .catch(error => console.error('Error:', error));
+        function actualizarImagen() {
+            fetch('http://localhost:8000/graph')
+                .then(response => response.json())
+                .then(data => {
+                    const imagenBase64 = data.imagen_base64;
+                    const imgElement = document.getElementById('graficoTelarana');
+                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        // Llama a la función para actualizar la imagen cada 5 segundos
+        setInterval(actualizarImagen, 5000); // 5000 milisegundos = 5 segundos
+    
+        // También puedes hacerlo al hacer clic en un botón
+        document.getElementById('redirectButton').addEventListener('click', () => {
+            window.location.href = 'otra_pagina.html';
+        });
     </script>
+    
 </body>
 </html>

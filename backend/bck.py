@@ -4,12 +4,14 @@ from fastapi import FastAPI, Form, HTTPException, Request,Response
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from matplotlib import pyplot as plt
+from numpy import pi
 from pymongo import MongoClient
 from pydantic import BaseModel
 from typing import List, Optional
 from starlette.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorClient
-from grafico_telarania import generar_grafico_telarana
+from fastapi.middleware.cors import CORSMiddleware
+
 import plotly.graph_objects as go
 import uvicorn
 import asyncio
@@ -17,7 +19,13 @@ from io import BytesIO
 import base64
 
 app = FastAPI()
-
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # Conexión a MongoDB
 client = MongoClient("mongodb://localhost:27017/")
 db = client["encuesta_db"]
@@ -28,6 +36,7 @@ if "encuestas" not in db.list_collection_names():
 collection = db["encuestas"]
 
 # Construir la ruta absoluta al directorio CSS
+pagina_Resultado= os.path.join(os.path.dirname(__file__), '../src/HTML/paginaResultado.html')
 directorio_css = os.path.join(os.path.dirname(__file__), '../src/CSS')
 prueba4_html = os.path.join(os.path.dirname(__file__), '../src/HTML/Prueba4.html')
 html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/finalEncuesta.html')
@@ -85,35 +94,77 @@ async def get_final_encuesta():
 
 def obtener_datos_encuestas():
     cursor = collection.find({})
-    datos_encuestas = {
-        'crujiente': 0,
-        'blanda': 0,
-        'dura': 0,
-        'suave': 0,
-        
-    }
-    for doc in cursor:
-        if 'textura' in doc:
-            textura = doc['textura']
-            if textura in datos_encuestas:
-                datos_encuestas[textura] += 1
-    return datos_encuestas
+    categorias = ['chocolate', 'atraccion', 'expectativa']
+    datos_encuestas = {categoria: [] for categoria in categorias}
 
-@app.get("/graph")
+    for doc in cursor:
+        for categoria in categorias:
+            if categoria in doc:
+                datos_encuestas[categoria].append(doc[categoria])
+
+    return categorias, datos_encuestas
+
+def generar_grafico_telarana(categorias, valores):
+    fig, ax = plt.subplots(figsize=(10, 6), subplot_kw=dict(polar=True))
+    valores_promedio = [sum(valores[i]) / len(valores[i]) for i in range(len(categorias))]
+    ax.fill(
+        [*range(len(categorias)), 0],
+        valores_promedio + [valores_promedio[0]],
+        alpha=0.25, color='b'
+    )
+    ax.set_theta_offset(-0.5)
+    ax.set_theta_direction(-1)
+    ax.set_thetagrids([i * (360 / len(categorias)) for i in range(len(categorias))], categorias)
+    ax.set_ylim(0, 5)
+    ax.set_title('Telaraña de Resultados de la Encuesta')
+    return fig
+
+  
+@app.get("/graph", response_class=JSONResponse)
 async def get_graph():
-    datos_encuestas = obtener_datos_encuestas()
-    imagen_telarana = generar_grafico_telarana(datos_encuestas)
+    categorias, datos_encuestas = obtener_datos_encuestas()
+    valores = [datos_encuestas[categoria] for categoria in categorias]
+
+    imagen_telarana = generar_grafico_telarana(categorias, valores)
+    
     with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmpfile:
         imagen_telarana.savefig(tmpfile.name, format="png")
 
-    # Leer el archivo temporal y convertirlo en una cadena base64
-        with open(tmpfile.name, "rb") as image_file:
-            imagen_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+    with open(tmpfile.name, "rb") as image_file:
+        imagen_base64 = base64.b64encode(image_file.read()).decode("utf-8")
 
-    # Construir el fragmento de HTML con la imagen base64
-    html_content = f'<img src="data:image/png;base64,{imagen_base64}" alt="Grafico de Telarana">'
-    return HTMLResponse(content=html_content)
+    return {"imagen_base64": imagen_base64}
 
+@app.get("/graph/view", response_class=HTMLResponse)
+async def view_graph():
+    categorias, datos_encuestas = obtener_datos_encuestas()
+    valores = [datos_encuestas[categoria] for categoria in categorias]
 
+    imagen_telarana = generar_grafico_telarana(categorias, valores)
+    
+    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmpfile:
+        imagen_telarana.savefig(tmpfile.name, format="png")
+
+    with open(tmpfile.name, "rb") as image_file:
+        imagen_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+
+    # Construir la respuesta HTML con la imagen y la redirección
+    html_content = f'''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="5; url=http://127.0.0.1:5500/src/HTML/paginarResultados.html">
+        <title>Redirecting...</title>
+    </head>
+    <body>
+        <img src="data:image/png;base64,{imagen_base64}" alt="Grafico de Telaraña">
+    </body>
+    </html>
+    '''
+
+    return HTMLResponse(content=html_content, headers={"Content-Type": "text/html; charset=utf-8"})
+
+    
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
