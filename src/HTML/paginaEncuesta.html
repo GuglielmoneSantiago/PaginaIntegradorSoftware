@@ -1,122 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE-edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/src/CSS/disenio.css">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/disenioPaginaEncuesta.css">
 </head>
 <body>
-    <header class="header">
-        <div class="container-header">
-            <h1>Encuesta Satisfacción</h1>
+    
+    <section class="container"> 
+        <header class="header">
+          <div class="company-name">Integrador InterCarrera</div>
+        </header>
+        <form  method="post" action="/submit">  
+        <h2 class="product-title">Producto #1</h2>
+        <p class="product-description">
+          Descripcion del producto. <br />
+          Descripcion del test.
+        </p>
+      
+        <div class="question-container">
+          <label for="questionInfo" class="question">Informacion Personal:</label>
+          <div class="form-group">
+            <label>  </label>
+            <div class="forms-grupos">
+              <label><b>Edad</b></label>
+              <input type="number" name="birth_year" id="birthYear" placeholder="Ingrese su edad" required>
+            </div>
+            <div class="forms-grupos">
+              <p><b>Género</b></p>
+              <label>
+                  <select name="gender" id="selectGender" class="selectOp" required>
+                      <option disabled selected value>Selecciona tu género</option>
+                      <option value="hombre">Hombre</option>
+                      <option value="mujer">Mujer</option>
+                      <option value="otro">Otro</option>
+                  </select>
+              </label>
+            </div>
+            
+              </label>
+          </div>
         </div>
-    </header>
-    <form  method="get" action="finalEncuesta.html">
-        <div class="forms-grupos">
-            <label><b>Edad</b></label>
-            <input type="number" name="age" id="edad" placeholder="Ingrese su Edad" required>
-        </div>
-        <div class="forms-grupos">
-            <p><b>Sexo</b></p>
-            <label>
-                <select name="sexo" id="selectSexo" class="selectOp" required>
-                    <option disabled selected value>Selecciona</option>
-                    <option value="hombre">Hombre</option>
-                    <option value="mujer">Mujer</option>
-                    <option value="otro">Otro</option>
-                </select>
-            </label>
-        </div>
-        <div class="forms-grupos">
-            <p><b>Describe tu rol</b></p>
-            <label>
-                <select name="role" id="select" class="selectOp" required>
-                    <option disabled selected value>Selecciona tu rol</option>
-                    <option value="estudiante">Estudiante</option>
-                    <option value="profe">Profesor</option>
-                    <option value="ealumno">Alumno</option>
-                </select>
-            </label>
-        </div>
-        <div class="forms-grupos">
-            <p><b>Crees que es necesario programar</b></p>
-            <label>
-                <input type="radio" name="programming" value="definitivamente" id="definitivamente"required>
-                <b>Definitivamente</b>
-            </label>
-            <label>
-                <input type="radio" name="programming" value="quizas" id="quizas"required>
-                <b>Quizás</b>
-            </label>
-            <label>
-                <input type="radio" name="programming" value="jamas" id="jamas"required>
-                <b>Jamás</b>
-            </label>
-        </div>
-        <div class="forms-grupos">
-            <p><b>Cual crees que es el mejor lenguaje</b></p>
-            <select name="best_language" id="lenguaje" class="selectOp">
-                <option disabled selected value>Seleccione una opcion</option>
-                <option value="java">Java</option>
-                <option value="python">Python</option>
-                <option value="javascript">JavaScript</option>
-            </select>
-        </div>
-        <div class="forms-grupos">
-            <p><b>A qué rama de la informática quieres ir</b></p>
-            <label>
-                <input type="checkbox" name="interest" value="front" id="front">
-                <b>Front-End</b>
-            </label>
-            <label>
-                <input type="checkbox" name="interest" value="back" id="back">
-                <b>Back-End</b>
-            </label>
-            <label>
-                <input type="checkbox" name="interest" value="full" id="full">
-                <b>Full Stack</b>
-            </label>
-        </div>
-        <div class="forms-grupos">
-            <p><b>¿Qué tan satisfecho estás con nuestro servicio?</b></p>
-            <input type="range" class="slider" id="satisfactionRange" name="satisfactionRange" min="1" max="5">
-            <div class="d-flex justify-content-between">
-                <span>Muy insatisfecho</span>
-                <span class="spanDerecha">Muy satisfecho</span>
+      </div>
+      
+        <div class="question-container">
+          <label for="question1" class="question">Pregunta 1:</label>
+          <div class="form-group">
+            <label>¿Como describirias a la textura de este alimento a simple vista? </label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="textura" id="tex1" value="Esponjoso">
+                <label class="form-check-label" for="tex1">
+                    Esponjoso
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="textura" id="tex2" value="Crujiente">
+                <label class="form-check-label" for="tex2">
+                    Crujiente
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="textura" id="tex3" value="Blando">
+                <label class="form-check-label" for="tex3">
+                    Blando
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="textura" id="tex4" value="Duro">
+                <label class="form-check-label" for="tex4">
+                    Duro
+                </label>
             </div>
         </div>
+        </div>
+        <!-- Pregunta 2 -->
+        <div class="question-container">
+            <label for="question2" class="question">Pregunta 2:</label>
+            <div class="forms-grupos">
+              <p><b>¿Sienten que la galletita se desase al comer?</b></p>
+              <input type="range" class="slider" id="satisfactionRange" name="satisfactionRange" min="1" max="5">
+              <div class="d-flex justify-content-between">
+                  <span>Nada</span>
+                  <span class="spanDerecha">Demasiado</span>
+              </div>
+            </div>
+        </div>
+        <!-- Pregunta 3 -->
+        <div class="question-container">
+          <label for="question3" class="question">Pregunta 3:</label>
+          <div class="forms-grupos">
+            <p><b>¿Qué tanto se siente el sabor a chocolate?</b></p>
+            <input type="range" class="slider" id="satisfactionRange" name="satisfactionRange" min="1" max="5">
+            <div class="d-flex justify-content-between">
+                <span>Muy poco</span>
+                <span class="spanDerecha">Mucho</span>
+            </div>
+        </div>
+          </div>
         
-        <div class="forms-grupos">
-            <p><b>Escribe tus comentarios</b></p>
-            <label>
-                <input type="text" name="comments" id="comentarios" placeholder="Escríbenos un comentario">
-            </label>
+        <!-- Pregunta 4 -->
+        <div class="question-container">
+            <label for="question4" class="question">Pregunta 4:</label>
+            <div class="forms-grupos">
+              <p><b>¿Les resulta atractivo el producto?</b></p>
+              <input type="range" class="slider" id="satisfactionRange_4" name="satisfactionRange_4" min="1" max="5">
+              <div class="d-flex justify-content-between">
+                  <span>Muy poco</span>
+                  <span class="spanDerecha">Mucho</span>
+              </div>
+            </div>
         </div>
-        <div class="button">
-            <input type="submit" value="Enviar">
+        <!-- Pregunta 5 -->
+        <div class="question-container">
+            <label for="question5" class="question">Pregunta 5:</label>
+            <div class="forms-grupos">
+              <p><b>¿El producto cumplió tus expectativas?</b></p>
+              <input type="range" class="slider" id="satisfactionRange_5" name="satisfactionRange_5" min="1" max="5">
+              <div class="d-flex justify-content-between">
+                  <span>Muy poco</span>
+                  <span class="spanDerecha">Mucho</span>
+              </div>
+            </div>
         </div>
-        <div class="container">
-            <h1>Survey Question</h1>
-            <form id="surveyForm">
-                <label for="satisfaction">How satisfied are you with our service?</label>
-                <input type="range" id="satisfaction" name="satisfaction" min="0" max="100" value="50" oninput="updateSliderValue(this.value)">
-                <div class="labels">
-                    <span>Poco Satisfecho</span>
-                    <span id="sliderValue">50</span>%
-                    <span>Muy Satisfecho</span>
+        <!-- Pregunta 6 -->
+        <div class="question-container">         
+            <div class="question-container">
+                <label for="question6" class="question">Pregunta 6:</label>
+                <div class="form-group">
+                <label>¿El producto te pareció húmedo o seco?</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="humedad" id="con1" value="Demasiado">
+                    <label class="form-check-label" for=con1">
+                        Humedo
+                    </label>
                 </div>
-                <button type="submit">Submit</button>
-            </form>
-            <div id="result"></div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="humedad" id="con2" value="Mucho">
+                    <label class="form-check-label" for="con2">
+                        Seco
+                    </label>
+                </div>
+                </div>
+            </div>
         </div>
-        <script src="/src/JS/script.js"></script>
-    </form>
-    <footer class="footer">
-        <div class="container-fot">
-            <h2>Hecho por</h2>
+        <!-- Pregunta 7 -->
+        <div class="question-container">
+          <label for="question7" class="question">Pregunta 7:</label>
+          <div class="form-group">
+            <label>¿Que sabores percibes en el producto?</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sabores" id="sab1" value="Dulce">
+                <label class="form-check-label" for="sab1">
+                    Dulce
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sabores" id="sab2" value="Amargo">
+                <label class="form-check-label" for="sab2">
+                    Amargo
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sabores" id="sab3" value="Salado">
+                <label class="form-check-label" for="sab3">
+                    Salado
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="sabores" id="sab4" value="Acido">
+                <label class="form-check-label" for="sab4">
+                    Acido
+                </label>
+            </div>
+          </div>
         </div>
-    </footer>
-</body>
-</html>
+       <!-- Pregunta 8 -->
+      <div class="question-container">
+        <label for="question8" class="question">Pregunta 8:</label>
+        <div class="form-group">
+          <label>¿Que otros sabores percibiste?</label>
+          <!-- Input de texto agregado aquí -->
+          <input type="text" id="respuesta7" name="respuesta7" class="input-texto" placeholder="Escribe tu respuesta aquí">
+        </div>
+      </div>
+      
+      
+      <button type="submit" class="finish-button">Enviar</button>
+        </section>
+      </form>
+      
+      </body>
+      </html>

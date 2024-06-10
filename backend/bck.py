@@ -38,7 +38,7 @@ collection = db["encuestas"]
 # Construir la ruta absoluta al directorio CSS
 pagina_Resultado= os.path.join(os.path.dirname(__file__), '../src/HTML/paginarResultados.html')
 directorio_css = os.path.join(os.path.dirname(__file__), '../src/CSS')
-prueba4_html = os.path.join(os.path.dirname(__file__), '../src/HTML/Prueba4.html')
+paginaEncuesta_html = os.path.join(os.path.dirname(__file__), '../src/HTML/paginaEncuesta.html')
 html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/finalEncuesta.html')
 
 # Montar el directorio estático
@@ -46,7 +46,7 @@ app.mount("/static", StaticFiles(directory=directorio_css), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def get_form():
-    with open(prueba4_html, encoding="utf-8") as f:
+    with open(paginaEncuesta_html, encoding="utf-8") as f:
         content = f.read()
         return HTMLResponse(content=content, headers={"Content-Type": "text/html; charset=utf-8"})
 
