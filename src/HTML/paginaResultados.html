@@ -9,6 +9,13 @@
 <body>
     <div class="container">
         <h1>Survey Results</h1>
+        <button onclick="downloadCSV()">Descargar Resultados en CSV</button>
+        
+        <script>
+            function downloadCSV() {
+                window.location.href = "/download_csv";
+            }
+        </script>
         <div id="results">
             <!-- Contenedores para mostrar los gráficos agrupados de a 2 -->
             <div class="image-pair">

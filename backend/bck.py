@@ -1,7 +1,8 @@
 import os
 import tempfile
+import csv
 from fastapi import FastAPI, Form, HTTPException, Request,Response
-from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from matplotlib import pyplot as plt
 from numpy import pi
@@ -36,7 +37,7 @@ if "encuestas" not in db.list_collection_names():
 collection = db["encuestas"]
 
 # Construir la ruta absoluta al directorio CSS
-pagina_Resultado= os.path.join(os.path.dirname(__file__), '../src/HTML/paginarResultados.html')
+pagina_Resultado= os.path.join(os.path.dirname(__file__), '../src/HTML/paginaResultados.html')
 directorio_css = os.path.join(os.path.dirname(__file__), '../src/CSS')
 paginaEncuesta_html = os.path.join(os.path.dirname(__file__), '../src/HTML/paginaEncuesta.html')
 html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/finalEncuesta.html')
@@ -319,6 +320,37 @@ async def get_form():
     with open(pagina_Resultado, encoding="utf-8") as f:
         content = f.read()
         return HTMLResponse(content=content, headers={"Content-Type": "text/html; charset=utf-8"})
+
+# Agrega esta nueva ruta
+@app.get("/download_csv")
+async def download_csv():
+    cursor = collection.find({})
+    # Crear un archivo temporal para almacenar los datos CSV
+    with tempfile.NamedTemporaryFile(mode='w', newline='', delete=False) as tmpfile:
+        fieldnames = ["edad", "genero", "textura", "consistencia", "chocolate", "atraccion", "expectativa", "humedad", "sabores", "respuesta"]
+        writer = csv.DictWriter(tmpfile, fieldnames=fieldnames)
+        writer.writeheader()
+        for doc in cursor:
+            writer.writerow({
+                "edad": doc.get("edad", ""),
+                "genero": doc.get("genero", ""),
+                "textura": doc.get("textura", ""),
+                "consistencia": doc.get("consistencia", ""),
+                "chocolate": doc.get("chocolate", ""),
+                "atraccion": doc.get("atraccion", ""),
+                "expectativa": doc.get("expectativa", ""),
+                "humedad": doc.get("humedad", ""),
+                "sabores": doc.get("sabores", ""),
+                "respuesta": doc.get("respuesta", "")
+            })
+
+    # Crear una respuesta de streaming para devolver el archivo CSV
+    def iterfile():
+        with open(tmpfile.name, mode="r") as file:
+            yield from file
+
+    return StreamingResponse(iterfile(), media_type="text/csv", headers={"Content-Disposition": "attachment; filename=encuestas.csv"})
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
