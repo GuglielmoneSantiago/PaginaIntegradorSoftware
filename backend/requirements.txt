@@ -1,0 +1,9 @@
+fastapi
+matplotlib
+numpy
+pymongo
+pydantic
+starlette
+motor
+plotly
+uvicorn
