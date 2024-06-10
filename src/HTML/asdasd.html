@@ -8,17 +8,30 @@
 <body>
 <h1>Visualizador de Imágenes</h1>
 <div id="imagenContainer"></div>
+<div class="image-pair"></div>
+<div class="image-pair">
+  <img id="graficoExpectativa" src="" alt="Grafico de Expectativa">
+  <img id="graficoSabores" src="" alt="Grafico de Sabores">
+</div>
 
 <script>
-  fetch('http://localhost:8000/graph')
-    .then(response => response.json())
-    .then(data => {
-      const imagenBase64 = data.imagen_base64;
-      const imgElement = document.createElement("img");
-      imgElement.src = `data:image/png;base64, ${imagenBase64}`;
-      document.getElementById('imagenContainer').appendChild(imgElement);
-    })
-    .catch(error => console.error('Error:', error));
+  fetch('http://localhost:8000/graph/expectativa') // grafico pregunta 5
+                .then(response => response.json())
+                .then(data => {
+                    const imagenBase64 = data.imagen_base64_expectativa;
+                    const imgElement = document.getElementById('graficoExpectativa');
+                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
+                })
+                .catch(error => console.error('Error:', error));
+            fetch('http://localhost:8000/graph/sabores') // grafico pregunta 7
+                .then(response => response.json())
+                .then(data => {
+                    const imagenBase64 = data.imagen_base64_pregunta_siete;
+                    const imgElement = document.getElementById('graficoSabores');
+                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
+                })
+                .catch(error => console.error('Error:', error));
+      setInterval(actualizarImagen, 2000);
 </script>
 </body>
 </html>

@@ -14,7 +14,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 80%;
-    max-width: 600px;
+    max-width: 800px; /* Aumentado para acomodar los gráficos */
 }
 
 h1 {
@@ -36,4 +36,29 @@ h1 {
 .result-item .percentage {
     font-size: 24px;
     color: #28a745;
+}
+
+/* Nuevos estilos para los gráficos */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px; /* Espacio superior para separar del título */
+}
+
+.grafico {
+    margin: 10px;
+    max-width: 45%; /* Ajusta según sea necesario para lograr el tamaño deseado */
+    box-sizing: border-box;
+    border: 1px solid #ddd; /* Bordes para distinguir los gráficos */
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
