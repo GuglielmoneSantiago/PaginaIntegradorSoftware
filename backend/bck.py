@@ -55,7 +55,7 @@ async def read_form(
     birth_year: Optional[int] = Form(...),
     gender: Optional[str] = Form(...),
     textura: Optional[str] = Form(...),
-    consistencia: Optional[str] = Form(...),
+    consistencia: Optional[int] = Form(...),
     satisfactionRange: Optional[int] = Form(...),
     satisfactionRange_4: Optional[int] = Form(...),
     satisfactionRange_5: Optional[int] = Form(...),

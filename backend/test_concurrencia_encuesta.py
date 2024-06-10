@@ -12,7 +12,7 @@ class UserBehavior(TaskSet):
             'birth_year': random.randint(1950, 2010),
             'gender': random.choice(['Male', 'Female', 'Other']),
             'textura': random.choice(['Suave', 'Rugosa', 'Fina', 'Gruesa']),
-            'consistencia': random.choice(['Firme', 'Blanda', 'Media']),
+            'consistencia': random.randint(1, 5),
             'satisfactionRange': random.randint(1, 5),
             'satisfactionRange_4': random.randint(1, 5),
             'satisfactionRange_5': random.randint(1, 5),
