@@ -6,7 +6,32 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
+    background-image: url('https://www.shutterstock.com/image-vector/chocolate-chip-cookies-doodle-seamless-600nw-2279158739.jpg');
 }
+}
+.container-header{
+    margin-left: 20px;
+    font-size: 1.3rem;
+    font-family: "Open sans";
+    justify-content: flex-end;
+  }
+  .header {
+    margin-bottom: 0;
+    background-color: rgb(114, 59, 8);
+    width: 100%;
+    gap: 8px;
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Open sans";
+    color: #fff;
+  }
+  .header img {
+    max-width: 11%;
+    height: auto;
+    
+  }
 
 .container {
     background: white;
