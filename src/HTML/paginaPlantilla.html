@@ -69,7 +69,7 @@
 
         async function fetchChartData() {
             try {
-                const response = await fetch('/api/encuestas/obtenerEncuestas');
+                const response = await fetch('./backend/__pycache__/bck.py');
                 return response.json();
             } catch (error) {
                 console.error('Error fetching chart data:', error);

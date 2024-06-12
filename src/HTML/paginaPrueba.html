@@ -1,40 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survey Results</title>
-    <link rel="stylesheet" href="/static/paginaResultados.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Survey Results</h1>
-        <button onclick="downloadCSV()">Descargar Resultados en CSV</button>
-        
-        <script>
-            function downloadCSV() {
-                window.location.href = "/download_csv";
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Botón con Imagen</title>
+        <style>
+            .hidden {
+                display: none;
             }
-        </script>
-        <div id="results">
-            <!-- Contenedores para mostrar los gráficos agrupados de a 2 -->
-            <div class="image-pair">
+        </style>
+    </head>
+    <body>
+    
+    <button id="mostrarOcultarBtn">Mostrar/Ocultar Imagen</button>
 
-                <img class=grafico id="graficoTelarana" src="" alt="Grafico de Telaraña">
-                <img class=grafico id="graficoPreguntaDos" src="" alt="Grafico de Pregunta 2">
-            </div>
-            <div class="image-pair">
-                <img class=grafico id="graficoChocolate" src="" alt="Grafico de Chocolate">
-                <img class=grafico id="graficoAtraccion" src="" alt="Grafico de Atraccion">
-            </div>
-            
-            <div class="image-pair">
-                <img class=grafico id="graficoExpectativa" src="" alt="Grafico de Expectativa">
-                <img class=grafico id="graficoSabores" src="" alt="Grafico de Sabores">
-            </div>
-        </div>
-    </div>
+    <img class="grafico hidden"  id="graficoExpectativa" src="" alt="Grafico de Expectativa">
+    
     <script>
+        
         function actualizarImagen() {
             fetch('http://localhost:8000/graph/pregunta1') // grafico pregunta 1
                 .then(response => response.json())
@@ -86,8 +69,20 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        // Llama a la función para actualizar la imagen cada 8 segundos
-        setInterval(actualizarImagen, 2000); // 8000 milisegundos = 8 segundos
+        const boton = document.getElementById('mostrarOcultarBtn');
+        const imagen = document.getElementById('graficoExpectativa');
+
+     boton.addEventListener('click', function() {
+        if (imagen.classList.contains('hidden')) {
+            imagen.classList.remove('hidden');
+            boton.textContent = 'Ocultar Imagen';
+        } else {
+            imagen.classList.add('hidden');
+            boton.textContent = 'Mostrar Imagen';
+        }
+    });
     </script>
-</body>
+    
+    </body>
+    
 </html>
