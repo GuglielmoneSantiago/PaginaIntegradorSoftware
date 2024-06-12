@@ -5,6 +5,7 @@ from fastapi import FastAPI, Form, HTTPException, Request,Response
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 from numpy import pi
 from pymongo import MongoClient
 from pydantic import BaseModel
@@ -126,6 +127,7 @@ def generar_grafico_barras(respuestas,etiquetas):
     ax.set_title('Respuestas a la Pregunta 1')
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.close
     return fig
 #termina pregunta 1 
 
@@ -162,6 +164,7 @@ def generar_grafico_barras_dos(respuestas,etiquetas):
     ax.set_title('Respuestas a la Pregunta 2')
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.close
     return fig
 #Termina pregunta 2
 
@@ -183,10 +186,19 @@ def obtener_datos_chocolate():
     return porcentajes_chocolate
 
 def generar_grafico_torta_chocolate(porcentajes_chocolate):
+    # Crear la figura y los ejes
     fig, ax = plt.subplots()
-    ax.pie(porcentajes_chocolate.values(), labels=porcentajes_chocolate.keys(), autopct='%1.1f%%', startangle=90)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # Definir los colores en tonalidades de marrón
+    colores_marron = ['#D2B48C', '#A0522D', '#8B4513', '#563527', '#800000']
+
+    # Dibujar el gráfico de torta
+    ax.pie(porcentajes_chocolate.values(), labels=porcentajes_chocolate.keys(), autopct='%1.1f%%', startangle=90, colors=colores_marron)
+    ax.axis('equal')  # Asegurar que el gráfico se dibuje como un círculo
+
+    # Establecer el título
     ax.set_title('Valoración del Chocolate')
+    plt.close
     return fig
 
 @app.get("/graph/chocolate", response_class=JSONResponse)
@@ -225,6 +237,7 @@ def generar_grafico_torta_atraccion(porcentajes_atraccion):
     ax.pie(porcentajes_atraccion.values(), labels=porcentajes_atraccion.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     ax.set_title('Valoración de la atraccion')
+    plt.close
     return fig
 
 @app.get("/graph/atraccion", response_class=JSONResponse)
@@ -263,6 +276,7 @@ def generar_grafico_torta_expectativa(porcentajes_expectativa):
     ax.pie(porcentajes_expectativa.values(), labels=porcentajes_expectativa.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     ax.set_title('Valoración de las Expectativas')
+    plt.close
     return fig
 
 @app.get("/graph/expectativa", response_class=JSONResponse)
@@ -313,6 +327,7 @@ def generar_grafico_barras_sabores(respuestas,etiquetas):
     ax.set_title('Respuestas a la Pregunta 7')
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.close
     return fig
 #Finaliza pregunta 7
 @app.get("/ver_grafico", response_class=HTMLResponse)
