@@ -41,7 +41,7 @@ pagina_Resultado= os.path.join(os.path.dirname(__file__), '../src/HTML/paginaRes
 directorio_css = os.path.join(os.path.dirname(__file__), '../src/CSS')
 paginaEncuesta_html = os.path.join(os.path.dirname(__file__), '../src/HTML/paginaEncuesta.html')
 html_directory_final = os.path.join(os.path.dirname(__file__), '../src/HTML/finalEncuesta.html')
-
+prueba = os.path.join(os.path.dirname(__file__), '../src/HTML/paginaPrueba.html')
 # Montar el directorio estático
 app.mount("/static", StaticFiles(directory=directorio_css), name="static")
 
@@ -350,7 +350,11 @@ async def download_csv():
             yield from file
 
     return StreamingResponse(iterfile(), media_type="text/csv", headers={"Content-Disposition": "attachment; filename=encuestas.csv"})
-
+@app.get("/finalEncues.html", response_class=HTMLResponse)
+async def get_final_encuesta():
+    with open(prueba, encoding="utf-8") as f:
+        content = f.read()
+    return HTMLResponse(content=content)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000)
