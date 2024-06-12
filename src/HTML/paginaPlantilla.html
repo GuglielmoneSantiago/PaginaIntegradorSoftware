@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gráfico Sensorial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .yellow-box {
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff3cd;
+        }
+        .chart-container {
+            display: none;
+        }
+        .btn-primary {
+            background-color: #ffc107;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #e0a800;
+        }
+        .legend-container {
+            margin-top: 20px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .col-md-8, .col-md-4 {
+            flex: 1;
+        }
+        #additionalChartContainer {
+            margin-top: 50px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="yellow-box card card-body">
+            <h3 class="text-center">Gráfico Sensorial</h3>
+            <div class="text-center mb-4">
+                <button class="btn btn-primary" onclick="showChart('afectivo')">Ver Gráfico Afectivo</button>
+                <button class="btn btn-primary" onclick="showChart('descriptivo')">Ver Gráfico Descriptivo</button>
+            </div>
+            <div id="chartContainer" class="chart-container row">
+                <div class="col-md-8">
+                    <canvas id="chart"></canvas>
+                    <canvas id="additionalChart"></canvas>
+                </div>
+                <div id="legendContainer" class="col-md-4 legend-container">
+                    <!-- Leyenda y promedio de rtaAfectivo se insertan aquí dinámicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let chart, additionalChart;
+
+        async function fetchChartData() {
+            try {
+                const response = await fetch('/api/encuestas/obtenerEncuestas');
+                return response.json();
+            } catch (error) {
+                console.error('Error fetching chart data:', error);
+                return null;
+            }
+        }
+
+        async function showChart(type) {
+            document.getElementById('chartContainer').style.display = 'block';
+            if (chart) {
+                chart.destroy();
+            }
+            if (additionalChart) {
+                additionalChart.destroy();
+            }
+
+            const data = await fetchChartData();
+            if (!data) return;
+
+            let labels, dataValues, legendHtml, config;
+
+            if (type === 'afectivo') {
+                const afectivoData = {
+                    Hombre: { sumEdad: 0, count: 0, sumAfectivo: 0, opinions: [0, 0, 0, 0, 0] },
+                    Mujer: { sumEdad: 0, count: 0, sumAfectivo: 0, opinions: [0, 0, 0, 0, 0] },
+                    Otro: { sumEdad: 0, count: 0, sumAfectivo: 0, opinions: [0, 0, 0, 0, 0] }
+                };
+
+                data.forEach(encuesta => {
+                    const genero = afectivoData[encuesta.genero];
+                    genero.sumEdad += encuesta.edad;
+                    genero.sumAfectivo += encuesta.rtaAfectivo;
+                    genero.count += 1;
+                    genero.opinions[encuesta.rtaAfectivo - 1] += 1;
+                });
+
+                labels = ['Hombre', 'Mujer', 'Otro'];
+                dataValues = [
+                    afectivoData.Hombre.count ? afectivoData.Hombre.sumEdad / afectivoData.Hombre.count : 0,
+                    afectivoData.Mujer.count ? afectivoData.Mujer.sumEdad / afectivoData.Mujer.count : 0,
+                    afectivoData.Otro.count ? afectivoData.Otro.sumEdad / afectivoData.Otro.count : 0
+                ];
+                const promedioAfectivo = [
+                    afectivoData.Hombre.count ? afectivoData.Hombre.sumAfectivo / afectivoData.Hombre.count : 0,
+                    afectivoData.Mujer.count ? afectivoData.Mujer.sumAfectivo / afectivoData.Mujer.count : 0,
+                    afectivoData.Otro.count ? afectivoData.Otro.sumAfectivo / afectivoData.Otro.count : 0
+                ];
+
+                const totalEncuestas = afectivoData.Hombre.count + afectivoData.Mujer.count + afectivoData.Otro.count;
+
+                legendHtml = `
+                    <h5>Leyenda</h5>
+                    <ul>
+                        <li>Hombre: ${afectivoData.Hombre.count} encuestas</li>
+                        <li>Mujer: ${afectivoData.Mujer.count} encuestas</li>
+                        <li>Otro: ${afectivoData.Otro.count} encuestas</li>
+                    </ul>
+                    <h5>Total de Encuestas: ${totalEncuestas}</h5>
+                `;
+
+                config = {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Promedio de Edad',
+                            data: dataValues,
+                            backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)'],
+                            borderColor: ['rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                };
+                chart = new Chart(document.getElementById('chart'), config);
+
+                // Creating the additional bar chart for general opinion
+                const opinionLabels = ['No me gusta nada', 'No me gusta', 'Me es indiferente', 'Me gusta', 'Me gusta mucho'];
+                const opinionCounts = [0, 0, 0, 0, 0]; // Array to hold the counts of each opinion level
+                const opinionPromedios = [0, 0, 0, 0, 0]; // Array to hold the sum of rtaAfectivo for each opinion level
+                const opinionDataHombres = afectivoData.Hombre.opinions;
+                const opinionDataMujeres = afectivoData.Mujer.opinions;
+                const opinionDataOtros = afectivoData.Otro.opinions;
+
+                data.forEach(encuesta => {
+                    opinionCounts[encuesta.rtaAfectivo - 1] += 1;
+                    opinionPromedios[encuesta.rtaAfectivo - 1] += encuesta.rtaAfectivo;
+                });
+
+                const opinionConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: opinionLabels,
+                        datasets: [{
+                            label: 'Cantidad de Opiniones',
+                            data: opinionCounts,
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                };
+                additionalChart = new Chart(document.getElementById('additionalChart'), opinionConfig);
+
+                legendHtml += `
+                    <h5>Opiniones por Género</h5>
+                    <ul>
+                        <li>Hombres:
+                            <ul>
+                                ${opinionLabels.map((label, i) => <li>${label}: ${opinionDataHombres[i]}</li>).join('')}
+                            </ul>
+                        </li>
+                        <li>Mujeres:
+                            <ul>
+                                ${opinionLabels.map((label, i) => <li>${label}: ${opinionDataMujeres[i]}</li>).join('')}
+                            </ul>
+                        </li>
+                        <li>Otros:
+                            <ul>
+                                ${opinionLabels.map((label, i) => <li>${label}: ${opinionDataOtros[i]}</li>).join('')}
+                            </ul>
+                        </li>
+                    </ul>
+                `;
+            } else if (type === 'descriptivo') {
+                const descriptivoData = { rtaSuavidad: 0, rtaHumedad: 0, rtaEsponjosidad: 0, rtaFragilidad: 0, rtaGrasoso: 0, rtaCrocante: 0, rtaDureza: 0 };
+                let count = 0;
+
+                data.forEach(encuesta => {
+                    descriptivoData.rtaSuavidad += encuesta.rtaSuavidad;
+                    descriptivoData.rtaHumedad += encuesta.rtaHumedad;
+                    descriptivoData.rtaEsponjosidad += encuesta.rtaEsponjosidad;
+                    descriptivoData.rtaFragilidad += encuesta.rtaFragilidad;
+                    descriptivoData.rtaGrasoso += encuesta.rtaGrasoso;
+                    descriptivoData.rtaCrocante += encuesta.rtaCrocante;
+                    descriptivoData.rtaDureza += encuesta.rtaDureza;
+                    count += 1;
+                });
+
+                labels = ['Suavidad', 'Humedad', 'Esponjosidad', 'Fragilidad', 'Grasoso', 'Crocante', 'Dureza'];
+                dataValues = [
+                    descriptivoData.rtaSuavidad / count,
+                    descriptivoData.rtaHumedad / count,
+                    descriptivoData.rtaEsponjosidad / count,
+                    descriptivoData.rtaFragilidad / count,
+                    descriptivoData.rtaGrasoso / count,
+                    descriptivoData.rtaCrocante / count,
+                    descriptivoData.rtaDureza / count
+                ];
+                legendHtml = `
+                    <h5>Leyenda</h5>
+                    <ul>
+                        <li>1 - Muy Malo</li>
+                        <li>2 - Malo</li>
+                        <li>3 - Normal</li>
+                        <li>4 - Bueno</li>
+                        <li>5 - Muy Bueno</li>
+                    </ul>
+                `;
+
+                config = {
+                    type: 'radar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Promedio de Respuestas',
+                            data: dataValues,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 5
+                            }
+                        }
+                    }
+                };
+                chart = new Chart(document.getElementById('chart'), config);
+            }
+
+            document.getElementById('legendContainer').innerHTML = legendHtml;
+        }
+    </script>
+</body>
+</html>
