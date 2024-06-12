@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survey Results</title>
+    <title>Resultados Encuesta</title>
     <link rel="stylesheet" href="/static/paginaResultados.css">
 </head>
 <body>
@@ -14,7 +14,6 @@
                 <h1></h1>
             </div>
         </header>
-    <div class="container">
         <h1>Survey Results</h1>
         <button onclick="downloadCSV()">Descargar Resultados en CSV</button>
         
@@ -24,24 +23,25 @@
             }
         </script>
         <div id="results">
-            <button id="mostrarTelaranaBtn">Mostrar Telaraña</button>
-            <button id="mostrarPreguntaDosBtn">Mostrar Pregunta 2</button>
-            <button id="mostrarChocolateBtn">Mostrar Chocolate</button>
+            <button  id="mostrarTelaranaBtn">Mostrar Telaraña</button>
+            <button  id="mostrarPreguntaDosBtn">Mostrar Pregunta 2</button>
+            <button  id="mostrarChocolateBtn">Mostrar Chocolate</button>
             <button id="mostrarAtraccionBtn">Mostrar Atracción</button>
-            <button id="mostrarExpectativaBtn">Mostrar Expectativa</button>
-            <button id="mostrarSaboresBtn">Mostrar Sabores</button>
+            <button  id="mostrarExpectativaBtn">Mostrar Expectativa</button>
+            <button  id="mostrarSaboresBtn">Mostrar Sabores</button>
 
-            <img class="grafico" id="graficoTelarana" src="tu-imagen-telarana.png" alt="Gráfico de Telaraña">
-            <img class="grafico" id="graficoPreguntaDos" src="tu-imagen-pregunta-dos.png" alt="Gráfico de Pregunta 2">
-            <img class="grafico" id="graficoChocolate" src="tu-imagen-chocolate.png" alt="Gráfico de Chocolate">
-            <img class="grafico" id="graficoAtraccion" src="tu-imagen-atraccion.png" alt="Gráfico de Atracción">
-            <img class="grafico" id="graficoExpectativa" src="tu-imagen-expectativa.png" alt="Gráfico de Expectativa">
-            <img class="grafico" id="graficoSabores" src="tu-imagen-sabores.png" alt="Gráfico de Sabores">
+            <img class="grafico hidden" id="graficoTelarana" src="tu-imagen-telarana.png" alt="Gráfico de Telaraña">
+            <img class="grafico hidden" id="graficoPreguntaDos" src="tu-imagen-pregunta-dos.png" alt="Gráfico de Pregunta 2">
+            <img class="grafico hidden" id="graficoChocolate" src="tu-imagen-chocolate.png" alt="Gráfico de Chocolate">
+            <img class="grafico hidden" id="graficoAtraccion" src="tu-imagen-atraccion.png" alt="Gráfico de Atracción">
+            <img class="grafico hidden" id="graficoExpectativa" src="tu-imagen-expectativa.png" alt="Gráfico de Expectativa">
+            <img class="grafico hidden" id="graficoSabores" src="tu-imagen-sabores.png" alt="Gráfico de Sabores">
 
         </div>
     </div>
+    </section>
     <script>
-        function actualizarImagen() {
+    function actualizarImagen() {
             fetch('http://localhost:8000/graph/pregunta1') // grafico pregunta 1
                 .then(response => response.json())
                 .then(data => {

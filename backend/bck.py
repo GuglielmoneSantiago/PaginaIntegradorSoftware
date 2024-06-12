@@ -127,6 +127,7 @@ def generar_grafico_barras(respuestas,etiquetas):
     ax.set_title('Respuestas a la Pregunta 1')
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.close
     return fig
 #termina pregunta 1 
 
@@ -163,6 +164,7 @@ def generar_grafico_barras_dos(respuestas,etiquetas):
     ax.set_title('Respuestas a la Pregunta 2')
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.close
     return fig
 #Termina pregunta 2
 
@@ -196,7 +198,7 @@ def generar_grafico_torta_chocolate(porcentajes_chocolate):
 
     # Establecer el título
     ax.set_title('Valoración del Chocolate')
-
+    plt.close
     return fig
 
 @app.get("/graph/chocolate", response_class=JSONResponse)
@@ -235,6 +237,7 @@ def generar_grafico_torta_atraccion(porcentajes_atraccion):
     ax.pie(porcentajes_atraccion.values(), labels=porcentajes_atraccion.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     ax.set_title('Valoración de la atraccion')
+    plt.close
     return fig
 
 @app.get("/graph/atraccion", response_class=JSONResponse)
@@ -273,6 +276,7 @@ def generar_grafico_torta_expectativa(porcentajes_expectativa):
     ax.pie(porcentajes_expectativa.values(), labels=porcentajes_expectativa.keys(), autopct='%1.1f%%', startangle=90)
     ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
     ax.set_title('Valoración de las Expectativas')
+    plt.close
     return fig
 
 @app.get("/graph/expectativa", response_class=JSONResponse)
@@ -323,6 +327,7 @@ def generar_grafico_barras_sabores(respuestas,etiquetas):
     ax.set_title('Respuestas a la Pregunta 7')
     plt.xticks(rotation=45)
     plt.tight_layout()
+    plt.close
     return fig
 #Finaliza pregunta 7
 @app.get("/ver_grafico", response_class=HTMLResponse)
