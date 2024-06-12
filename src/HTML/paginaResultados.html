@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="/static/paginaResultados.css">
 </head>
 <body>
+    <section class="container"> 
+        <header class="header">
+            <img src="/src/LogoGalletira.png" alt="OatChoc">
+            <div class="container-header">
+                <h1></h1>
+            </div>
+        </header>
     <div class="container">
         <h1>Survey Results</h1>
         <button onclick="downloadCSV()">Descargar Resultados en CSV</button>
@@ -27,7 +34,9 @@
                 <img class=grafico id="graficoChocolate" src="" alt="Grafico de Chocolate">
                 <img class=grafico id="graficoAtraccion" src="" alt="Grafico de Atraccion">
             </div>
-            
+            <button id="mostrarOcultarBtn">Mostrar/Ocultar Imagen</button>
+
+            <img class="grafico hidden"  id="graficoExpectativa" src="" alt="Grafico de Expectativa">
             <div class="image-pair">
                 <img class=grafico id="graficoExpectativa" src="" alt="Grafico de Expectativa">
                 <img class=grafico id="graficoSabores" src="" alt="Grafico de Sabores">
