@@ -1,5 +1,9 @@
+:root {
+    --fuente-principal: 'Manrope', sans-serif;
+  }
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--fuente-principal);
     margin: 0;
     padding: 0;
     display: flex;
@@ -61,6 +65,12 @@ h1 {
     margin-bottom: 20px;
 }
 
+.cont-resultados{
+    display: flex;
+    flex-direction: row!important;
+    justify-content: space-between;
+}
+
 .grafico {
     margin: 10px;
     width: calc(50% - 20px);  /* Ajuste del tamaño para un buen margen */
@@ -71,9 +81,14 @@ h1 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     display: none;
-    -ms-flex-align: end
-;
 }
+
+.cont-botones{
+    display: flex;
+    flex-direction: column;
+}
+
+
 
 img {
     width: 100%;
@@ -81,10 +96,11 @@ img {
     display: block;
 }
 button {
-    background-color: brown;
+    background-color: rgb(114, 59, 8);
     color: white;
     padding: 10px 20px;
     border: none;
+    margin-top: 10px;
     border-radius: 5px;
     cursor: pointer;
 }
