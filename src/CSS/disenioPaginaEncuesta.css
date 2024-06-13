@@ -3,7 +3,9 @@
 }
 body {
   font-family: var(--fuente-principal);
+  background-image: url('https://www.shutterstock.com/image-vector/chocolate-chip-cookies-doodle-seamless-600nw-2279158739.jpg');
 }
+
 .input-texto {
 display: block; /* Hace que el input ocupe su propia línea */
 width: 96%; /* Ocupa el 80% del ancho del contenedor */
