@@ -69,10 +69,12 @@ h1 {
     display: flex;
     flex-direction: row!important;
     justify-content: space-between;
+    align-items: start;
 }
 
 .grafico {
     margin: 10px;
+    margin-top: -40px; /*CUANDO HAGAN EL MEDIA PARA RESPONSIVE ESTE SAQUEN */
     width: calc(50% - 20px);  /* Ajuste del tamaño para un buen margen */
     border: 1px solid #ddd;
     background-color: white;
