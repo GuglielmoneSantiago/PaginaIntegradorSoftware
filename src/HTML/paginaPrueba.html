@@ -4,125 +4,378 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Botones para Mostrar Gráficos</title>
-    <style>
-        .grafico {
-            display: none;
-        }
-    </style>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-
-<button id="mostrarTelaranaBtn">Mostrar Telaraña</button>
-<button id="mostrarPreguntaDosBtn">Mostrar Pregunta 2</button>
-<button id="mostrarChocolateBtn">Mostrar Chocolate</button>
-<button id="mostrarAtraccionBtn">Mostrar Atracción</button>
-<button id="mostrarExpectativaBtn">Mostrar Expectativa</button>
-<button id="mostrarSaboresBtn">Mostrar Sabores</button>
-
-<img class="grafico" id="graficoTelarana" src="tu-imagen-telarana.png" alt="Gráfico de Telaraña">
-<img class="grafico" id="graficoPreguntaDos" src="tu-imagen-pregunta-dos.png" alt="Gráfico de Pregunta 2">
-<img class="grafico" id="graficoChocolate" src="tu-imagen-chocolate.png" alt="Gráfico de Chocolate">
-<img class="grafico" id="graficoAtraccion" src="tu-imagen-atraccion.png" alt="Gráfico de Atracción">
-<img class="grafico" id="graficoExpectativa" src="tu-imagen-expectativa.png" alt="Gráfico de Expectativa">
-<img class="grafico" id="graficoSabores" src="tu-imagen-sabores.png" alt="Gráfico de Sabores">
-
-<script>
-    function actualizarImagen() {
-            fetch('http://localhost:8000/graph/pregunta1') // grafico pregunta 1
-                .then(response => response.json())
-                .then(data => {
-                    const imagenBase64 = data.imagen_base64_barra_pregunta_uno;
-                    const imgElement = document.getElementById('graficoTelarana');
-                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
-                })
-                .catch(error => console.error('Error:', error));
-            fetch('http://localhost:8000/graph/pregunta2') // grafico pregunta 2
-                .then(response => response.json())
-                .then(data => {
-                    const imagenBase64 = data.imagen_base64_barra_pregunta_dos;
-                    const imgElement = document.getElementById('graficoPreguntaDos');
-                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
-                })
-                .catch(error => console.error('Error:', error));
-            fetch('http://localhost:8000/graph/chocolate') // grafico pregunta 3
-                .then(response => response.json())
-                .then(data => {
-                    const imagenBase64 = data.imagen_base64_chocolate;
-                    const imgElement = document.getElementById('graficoChocolate');
-                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
-                })
-                .catch(error => console.error('Error:', error));
-            fetch('http://localhost:8000/graph/atraccion') // grafico pregunta 4
-                .then(response => response.json())
-                .then(data => {
-                    const imagenBase64 = data.imagen_base64_atraccion;
-                    const imgElement = document.getElementById('graficoAtraccion');
-                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
-                })
-                .catch(error => console.error('Error:', error));
-            fetch('http://localhost:8000/graph/expectativa') // grafico pregunta 5
-                .then(response => response.json())
-                .then(data => {
-                    const imagenBase64 = data.imagen_base64_expectativa;
-                    const imgElement = document.getElementById('graficoExpectativa');
-                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
-                })
-                .catch(error => console.error('Error:', error));
-            fetch('http://localhost:8000/graph/sabores') // grafico pregunta 7
-                .then(response => response.json())
-                .then(data => {
-                    const imagenBase64 = data.imagen_base64_barra_pregunta_siete;
-                    const imgElement = document.getElementById('graficoSabores');
-                    imgElement.src = `data:image/png;base64,${imagenBase64}`;
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    const telaranaBtn = document.getElementById('mostrarTelaranaBtn');
-    const preguntaDosBtn = document.getElementById('mostrarPreguntaDosBtn');
-    const chocolateBtn = document.getElementById('mostrarChocolateBtn');
-    const atraccionBtn = document.getElementById('mostrarAtraccionBtn');
-    const expectativaBtn = document.getElementById('mostrarExpectativaBtn');
-    const saboresBtn = document.getElementById('mostrarSaboresBtn');
-
-    const graficos = document.querySelectorAll('.grafico');
-
-    telaranaBtn.addEventListener('click', function() {
-        ocultarGraficos();
-        document.getElementById('graficoTelarana').style.display = 'block';
-    });
-
-    preguntaDosBtn.addEventListener('click', function() {
-        ocultarGraficos();
-        document.getElementById('graficoPreguntaDos').style.display = 'block';
-    });
-
-    chocolateBtn.addEventListener('click', function() {
-        ocultarGraficos();
-        document.getElementById('graficoChocolate').style.display = 'block';
-    });
-
-    atraccionBtn.addEventListener('click', function() {
-        ocultarGraficos();
-        document.getElementById('graficoAtraccion').style.display = 'block';
-    });
-
-    expectativaBtn.addEventListener('click', function() {
-        ocultarGraficos();
-        document.getElementById('graficoExpectativa').style.display = 'block';
-    });
-
-    saboresBtn.addEventListener('click', function() {
-        ocultarGraficos();
-        document.getElementById('graficoSabores').style.display = 'block';
-    });
-
-    function ocultarGraficos() {
-        graficos.forEach(grafico => {
-            grafico.style.display = 'none';
-        });
+<style>
+    body {
+        font-family: var(--fuente-principal);
+        background-image: url('https://www.shutterstock.com/image-vector/chocolate-chip-cookies-doodle-seamless-600nw-2279158739.jpg');
+      }
+    :root {
+        --fuente-principal: 'Manrope', sans-serif;
     }
-    setInterval(actualizarImagen, 2000);
-</script>
+    .container {
+        background-color: #fff;
+        display: flex;
+        width: calc(100% - 24px);
+        max-width: 1200px;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 19px;
+        font-weight: 700;
+        margin: 2% auto;
+        padding: 12px;
+    }
+    /*Preguntas contenedor*/
+    .question {
+        font-family: Manrope, sans-serif;
+        padding: 7px 9px;
+        font-size: larger;
+        width: 100%;
+    }
+    .question-container {
+        width: 97%;
+        border-radius: 10px;
+        border: 2px solid rgb(114, 59, 8);
+        background-color: #e4ded7;
+        display: flex;
+        flex-direction: column;
+        color: var(--Neutral-800, #191d23);
+        justify-content: center;
+        margin-top: 20px;
+        padding: 10px; /* Añade un espacio de 10px alrededor del contenido dentro del contenedor */
+    }
+    .form-control{
+        font-family: sans-serif;
+        width: 40%;
+    }
+    /*header*/
+    .header {
+        margin-bottom: 0;
+        background-color: rgb(114, 59, 8);
+        width: 100%;
+        gap: 8px;
+        padding: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Open sans";
+        color: #fff;
+    }
+    .header img {
+        max-width: 11%;
+        height: auto;
+        
+    }
+    /*form*/
+    form{
+    margin:  50px auto;
+    background-color: #FFF;
+    width: 90%;
+    padding: 0rem;
+    border-radius: 5px;
+    }
+    /*descripcion*/
+    .product-title {
+        color: rgb(114, 59, 8);
+        margin-top: 0px;
+        font:Manrope, sans-serif;
+        font-size: 40px;
+        align-self: flex-start;
+        margin-left: 0; /* Asegura que no haya margen a la izquierda */
+        padding-left: 0;
+        font-weight: bold;
+    }
+    .product-description {
+        color: var(--Neutral-500, #64748b);
+        margin-top: 8px;
+        font-size: 20px;
+        font: 400 18px Manrope, sans-serif;
+        align-self: flex-start;
+        margin-left: 0; /* Asegura que no haya margen a la izquierda */
+        padding-left: 0;
+    }
+    /*slider*/
+    .slider {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 15px;
+        border-radius: 5px;
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity .2s;
+    }
+    .slider:hover {
+        opacity: 1;
+    }
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: rgb(114, 59, 8);
+        cursor: pointer;
+    }
+    .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: rgb(114, 59, 8);
+        cursor: pointer;
+    }
+    .d-flex {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .spanDerecha {
+        text-align: right;
+    }
+    /*input*/
+    .input-texto {
+        display: block; /* Hace que el input ocupe su propia línea */
+        width: 96%; /* Ocupa el 80% del ancho del contenedor */
+        margin: 10px auto; /* Espacio arriba y abajo del input y margen automático a los lados */
+        padding: 10px; /* Espacio dentro del input */
+        box-sizing: border-box; /* Incluye el padding en el cálculo del ancho */
+        }
+    @media (max-width: 480px) {
+        .product-title {
+          font-size: 50px;
+        }
+        .product-description {
+          font-size: 20px;
+        }
+        .container-header {
+          margin-left: 0px;
+          font-size: 0.8rem; /* Tamaño de fuente aún más pequeño */
+        }
+      
+        .header {
+          flex-direction: column; /* Cambia la disposición a vertical */
+          gap: 0px; /* Reduce el espacio entre elementos */
+        }
+      
+        .header img {
+          max-width: 30%; /* Imagen más grande para visibilidad */
+        }
+        form{
+          width: 80%;;
+        }
+      }
+    @media (max-width: 768px) {
+        .container-header {
+          margin-left: 10px;
+          font-size: 1rem; /* Tamaño de fuente más pequeño */
+        }
+      
+        .header img {
+          max-width: 15%; /* Imagen un poco más grande */
+        }
+        .spanDerecha {
+        margin-left: 0;
+        text-align: right;
+        flex: 1;
+      }
+    }
+    .finish-button {
+        justify-content: center;
+        align-items: center;
+        align-self: stretch;
+        border-radius: 8px;
+        border: 1px solid rgb(178, 91, 11);
+        background-color: rgb(114, 59, 8);
+        margin-top: 42px;
+        color: #fffdfd;
+        white-space: nowrap;
+        padding: 8px 16px;
+        font: 16px/150% Manrope, sans-serif;
+        width: 100%;
+      }
+    
+</style>
+<body>
+    <section class="container">
+        <header class="header">
+            <img src="https://i.ibb.co/MVfhThY/Logo-Galletira.png" alt="OatChoc" class="img-fluid">
+            <div class="container-header">
+                <h1></h1>
+            </div>
+        </header>
+        <form  method="post" action="/submit">  
+            <h2 class="product-title">Oat Choc</h2>
+            <p class="product-description">
+                <br />Galletas integrales de avena con chips de chocolate: Contienen harina de avena, chips de chocolate, banana, miel, aceite de oliva, levadura y ralladura de limón. <br /><br />
+            </p>
+            
+            <div class="question-container">
+                <label for="questionInfo" class="h4">Información Personal:</label>
+                <div class="form-group">
+                    <div class="forms-grupos">
+                        <label for="birthYear"><b>Edad</b></label>
+                        <input type="number" class="form-control" name="birth_year" id="birthYear" placeholder="Ingrese su edad" required min="0" max="120">
+                    </div>
+                    <div class="forms-grupos mt-3">
+                        <label for="selectGender"><b>Género</b></label>
+                        <select name="gender" id="selectGender" class="form-control" required>
+                            <option disabled selected value>Selecciona tu género</option>
+                            <option value="hombre">Hombre</option>
+                            <option value="mujer">Mujer</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pregunta 1 -->            
+            <div class="question-container">
+                <label for="question1" class="question">Pregunta 1:</label>
+                <div class="form-group">
+                    <label>¿Como describirias a la textura de este alimento a simple vista? </label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="textura" id="tex1" value="Esponjoso" required>
+                        <label class="form-check-label" for="tex1">
+                            Esponjoso
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="textura" id="tex2" value="Crujiente">
+                        <label class="form-check-label" for="tex2">
+                            Crujiente
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="textura" id="tex3" value="Blando">
+                        <label class="form-check-label" for="tex3">
+                            Blando
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="textura" id="tex4" value="Duro">
+                        <label class="form-check-label" for="tex4">
+                            Duro
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pregunta 2 -->
+            <div class="question-container">
+                <label for="question2" class="question">Pregunta 2:</label>
+                <div class="forms-grupos">
+                    <p>¿Sienten que la galletita se deshase al comer?</p>
+                    <input type="range" class="slider accent" id="satisfactionRange" name="consistencia" min="1" max="5">
+                    <div class="d-flex justify-content-between">
+                        <span>Nada</span>
+                        <span class="spanDerecha">Demasiado</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pregunta 3 -->
+            <div class="question-container">
+                <label for="question3" class="question">Pregunta 3:</label>
+                <div class="forms-grupos">
+                    <p>¿Qué tanto se siente el sabor a chocolate?</p>
+                    <input type="range" class="slider accent" id="satisfactionRange" name="satisfactionRange" min="1" max="5">
+                    <div class="d-flex justify-content-between">
+                        <span>Muy poco</span>
+                        <span class="spanDerecha">Mucho</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pregunta 4 -->
+            <div class="question-container">
+                <label for="question4" class="question">Pregunta 4:</label>
+                <div class="forms-grupos">
+                <p>¿Les resulta atractivo el producto?</p>
+                <input type="range" class="slider accent" id="satisfactionRange_4" name="satisfactionRange_4" min="1" max="5">
+                <div class="d-flex justify-content-between">
+                    <span>Muy poco</span>
+                    <span class="spanDerecha">Mucho</span>
+                </div>
+                </div>
+            </div>
+            <!-- Pregunta 5 -->
+            <div class="question-container">
+                <label for="question5" class="question">Pregunta 5:</label>
+                <div class="forms-grupos">
+                <p>¿El producto cumplió tus expectativas?</p>
+                <input type="range" class="slider accent" id="satisfactionRange_5" name="satisfactionRange_5" min="1" max="5">
+                <div class="d-flex justify-content-between">
+                    <span>Muy poco</span>
+                    <span class="spanDerecha">Mucho</span>
+                </div>
+                </div>
+            </div>
+            <!-- Pregunta 6 -->
+            <div class="question-container">
+                <label for="question6" class="question">Pregunta 6:</label>
+                <div class="form-group">
+                <label>¿El producto te pareció húmedo o seco?</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="humedad" id="con1" value="Demasiado" required>
+                    <label class="form-check-label" for=con1">
+                        Humedo
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="humedad" id="con2" value="Mucho">
+                    <label class="form-check-label" for="con2">
+                        Seco
+                    </label>
+                </div>
+                </div>
+            </div>
+            <!-- Pregunta 7 -->
+            <div class="question-container">
+                <label for="question7" class="question">Pregunta 7:</label>
+                <div class="form-group">
+                <label>¿Que sabores percibes en el producto?</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sabores" id="sab1" value="Dulce" required>
+                    <label class="form-check-label" for="sab1">
+                        Dulce
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sabores" id="sab2" value="Amargo">
+                    <label class="form-check-label" for="sab2">
+                        Amargo
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sabores" id="sab3" value="Salado">
+                    <label class="form-check-label" for="sab3">
+                        Salado
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="sabores" id="sab4" value="Acido">
+                    <label class="form-check-label" for="sab4">
+                        Acido
+                    </label>
+                </div>
+                </div>
+            </div> 
+            <!-- Pregunta 8 -->
+            <div class="question-container">
+                <label for="question8" class="question">Pregunta 8:</label>
+                <div class="form-group">
+                    <label>¿Que otros sabores percibiste?</label>
+                    <!-- Input de texto agregado aquí -->
+                    <input type="text" id="respuesta7" name="respuesta7" class="input-texto" placeholder="Escribe tu respuesta aquí" required>
+                </div>
+            </div>
+            <button type="submit" class="finish-button">Enviar</button> 
+        </form>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 </html>

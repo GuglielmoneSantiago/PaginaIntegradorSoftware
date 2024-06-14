@@ -2,58 +2,287 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/static/disenioPaginaEncuesta.css">
 </head>
+<style>
+  .slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+.slider:hover {
+    opacity: 1;
+}
+.d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;  
+}
+.spanDerecha{
+  text-align: right;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgb(114, 59, 8);
+    cursor: pointer;
+}
+.form-control{
+    font-family: sans-serif;
+    width: 15%;
+}
+.slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: rgb(114, 59, 8);
+    cursor: pointer;
+}
+  :root {
+    --fuente-principal: 'Manrope', sans-serif;
+  }
+  body {
+    font-family: var(--fuente-principal);
+    background-image: url('https://www.shutterstock.com/image-vector/chocolate-chip-cookies-doodle-seamless-600nw-2279158739.jpg');
+  }
+  
+  .input-texto {
+  display: block; /* Hace que el input ocupe su propia línea */
+  width: 96%; /* Ocupa el 80% del ancho del contenedor */
+  margin: 10px auto; /* Espacio arriba y abajo del input y margen automático a los lados */
+  padding: 10px; /* Espacio dentro del input */
+  box-sizing: border-box; /* Incluye el padding en el cálculo del ancho */
+  }
+  
+  
+  
+  .container {
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 19px;
+    font-weight: 700;
+    margin: 0 auto;
+    padding: 0px;
+  }
+  .container-header{
+    margin-left: 20px;
+    font-size: 1.3rem;
+    font-family: "Open sans";
+    justify-content: flex-end;
+  }
+  .header {
+    margin-bottom: 0;
+    background-color: rgb(114, 59, 8);
+    width: 100%;
+    gap: 8px;
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Open sans";
+    color: #fff;
+  }
+  .header img {
+    max-width: 11%;
+    height: auto;
+    
+  }
+  
+  .logo {
+    aspect-ratio: 1.2;
+    object-fit: auto;
+    object-position: center;
+    width: 24px;
+    align-self: start;
+  }
+  .company-name {
+    text-overflow: ellipsis;
+    font-family: Open Sans, sans-serif;
+    background: linear-gradient(272deg, #059669 22.06%, #00d995 116.84%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    flex: 1;
+  }
+  .product-title {
+    color: rgb(114, 59, 8);
+    margin-top: 0px;
+    font:Manrope, sans-serif;
+    font-size: 45px;
+    align-self: flex-start;
+    margin-left: 0; /* Asegura que no haya margen a la izquierda */
+    padding-left: 0;
+    font-weight: bold;
+  }
+  .product-description {
+    color: var(--Neutral-500, #64748b);
+    margin-top: 8px;
+    font-size: 35;
+    font: 400 18px Manrope, sans-serif;
+    align-self: flex-start;
+    margin-left: 0; /* Asegura que no haya margen a la izquierda */
+    padding-left: 0;
+  }
+  .question-container {
+    width: 97%;
+    border-radius: 10px;
+    border: 2px solid rgb(114, 59, 8);
+    background-color: #e4ded7;
+    display: flex;
+    flex-direction: column;
+    color: var(--Neutral-800, #191d23);
+    justify-content: center;
+    margin-top: 22px;
+    padding: 10px; /* Añade un espacio de 10px alrededor del contenido dentro del contenedor */
+  }
+  form{
+    margin:  50px auto;
+    background-color: #FFF;
+    width: 90%;
+    padding: 0rem;
+    border-radius: 5px;
+  }
+  .question {
+    font-family: Manrope, sans-serif;
+    padding: 7px 9px;
+    width: 100%;
+  }
+  .finish-button {
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid rgb(178, 91, 11);
+    background-color: rgb(114, 59, 8);
+    margin-top: 42px;
+    color: #fffdfd;
+    white-space: nowrap;
+    padding: 8px 16px;
+    font: 16px/150% Manrope, sans-serif;
+    width: 100%;
+  }
+  @media (max-width: 768px) {
+    .container-header {
+      margin-left: 10px;
+      font-size: 1rem; /* Tamaño de fuente más pequeño */
+    }
+  
+    .header img {
+      max-width: 15%; /* Imagen un poco más grande */
+    }
+    .spanDerecha {
+    margin-left: 0;
+    text-align: right;
+    flex: 1;
+    }
+  }
+    .container {
+      width: calc(100% - 24px);
+      padding: 12px;
+    }
+    .logo {
+      width: 38px;
+    }
+    .company-name {
+      font-size: 55px;
+    }
+    .product-title {
+      font-size: 40px;
+    }
+    .product-description {
+      font-size: 20px;
+    }
+    .question-container {
+      margin-top: 20px;
+    }
+    .question {
+      padding: 7px 9px;
+    }
+    .finish-button {
+      font-size: 14px;
+      padding: 8px;
+    }
+    @media (max-width: 480px) {
+      .product-title {
+        font-size: 50px;
+      }
+      .product-description {
+        font-size: 20px;
+      }
+      .container-header {
+        margin-left: 0px;
+        font-size: 0.8rem; /* Tamaño de fuente aún más pequeño */
+      }
+    
+      .header {
+        flex-direction: column; /* Cambia la disposición a vertical */
+        gap: 0px; /* Reduce el espacio entre elementos */
+      }
+    
+      .header img {
+        max-width: 30%; /* Imagen más grande para visibilidad */
+      }
+      form{
+        width: 80%;;
+      }
+    }
+</style>
 <body>
     
     <section class="container"> 
-            <header class="header">
-                <img src="/src/LogoGalletira.png" alt="OatChoc">
-                <div class="container-header">
-                    <h1></h1>
-                </div>
-            </header>
-        <form  method="get" action="finalEncuesta.html">  
-        <h2 class="product-title"> Oat Choc</h2>
-        <p class="product-description"> 
+        <header class="header">
+          <img src="https://i.ibb.co/MVfhThY/Logo-Galletira.png" alt="OatChoc">
+              <div class="container-header">
+                  <h1></h1>
+              </div>
+        </header>
+        <form  method="post" action="/submit">  
+        <h2 class="product-title">Oat Choc</h2>
+        <p class="product-description">
           Galletas integrales de avena con chips de chocolate: Contienen harina de avena, chips de chocolate, banana, miel, aceite de oliva, levadura y ralladura de limón. <br />
         </p>
-
-        
       
-        <div class="question-container">
-          <label for="questionInfo" class="question">Informacion Personal:</label>
-          <div class="form-group">
-            <label>  </label>
-            <div class="forms-grupos">
-              <label><b>Edad</b></label>
-              <input type="number" name="birth_year" id="birthYear" placeholder="Ingrese su edad" required>
+        <div class="container mt-5">
+            <div class="question-container">
+                <label for="questionInfo" class="h4">Información Personal:</label>
+                <div class="form-group">
+                    <div class="forms-grupos">
+                        <label for="birthYear"><b>Edad</b></label>
+                        <input type="number" class="form-control" name="birth_year" id="birthYear" placeholder="Ingrese su edad" required min="0" max="120">
+                    </div>
+                    <div class="forms-grupos mt-3">
+                        <label for="selectGender"><b>Género</b></label>
+                        <select name="gender" id="selectGender" class="form-control" required>
+                            <option disabled selected value>Selecciona tu género</option>
+                            <option value="hombre">Hombre</option>
+                            <option value="mujer">Mujer</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-            <div class="forms-grupos">
-              <p><b>Género</b></p>
-              <label>
-                  <select name="gender" id="selectGender" class="selectOp" required>
-                      <option disabled selected value>Selecciona tu género</option>
-                      <option value="hombre">Hombre</option>
-                      <option value="mujer">Mujer</option>
-                      <option value="otro">Otro</option>
-                  </select>
-              </label>
-            </div>
-            
-              </label>
-          </div>
         </div>
-      </div>
       
         <div class="question-container">
           <label for="question1" class="question">Pregunta 1:</label>
           <div class="form-group">
             <label>¿Como describirias a la textura de este alimento a simple vista? </label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="textura" id="tex1" value="Esponjoso">
+                <input class="form-check-input" type="radio" name="textura" id="tex1" value="Esponjoso" required>
                 <label class="form-check-label" for="tex1">
                     Esponjoso
                 </label>
@@ -80,158 +309,71 @@
         </div>
         <!-- Pregunta 2 -->
         <div class="question-container">
-          <label for="question2" class="question">Pregunta 2:</label>
-          <div class="form-group">
-            <label>¿La galletita se deshace al comer?</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="consistencia" id="con1" value="Demasiado">
-                <label class="form-check-label" for=con1">
-                    Demasiado
-                </label>
+            <label for="question2" class="question">Pregunta 2:</label>
+            <div class="forms-grupos">
+              <p><b>¿Sienten que la galletita se deshase al comer?</b></p>
+              <input type="range" class="slider accent" id="satisfactionRange" name="consistencia" min="1" max="5">
+              <div class="d-flex justify-content-between">
+                  <span>Nada</span>
+                  <span class="spanDerecha">Demasiado</span>
+              </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="consistencia" id="con2" value="Mucho">
-                <label class="form-check-label" for="con2">
-                    Mucho
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="consistencia" id="con3" value="Poco">
-                <label class="form-check-label" for="con3">
-                    Poco
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="consistencia" id="con4" value="Nada">
-                <label class="form-check-label" for="con4">
-                    Nada
-                </label>
-            </div>
-          </div>
         </div>
         <!-- Pregunta 3 -->
         <div class="question-container">
           <label for="question3" class="question">Pregunta 3:</label>
-          <div class="form-group">
-            <label>¿Qué tanto se siente el sabor a chocolate?</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho1" value="Mucho">
-                <label class="form-check-label" for="cho1">
-                    Mucho
-                </label>
+          <div class="forms-grupos">
+            <p><b>¿Qué tanto se siente el sabor a chocolate?</b></p>
+            <input type="range" class="slider accent" id="satisfactionRange" name="satisfactionRange" min="1" max="5">
+            <div class="d-flex justify-content-between">
+                <span>Muy poco</span>
+                <span class="spanDerecha">Mucho</span>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho2" value="Suficiente">
-                <label class="form-check-label" for="cho2">
-                    Suficiente
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho3" value="Poco">
-                <label class="form-check-label" for="cho3">
-                    Poco
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="chocolate" id="cho4" value="Nada">
-                <label class="form-check-label" for="cho4">
-                    Nada
-                </label>
-            </div>
-          </div>
         </div>
+          </div>
+        
         <!-- Pregunta 4 -->
         <div class="question-container">
-          <label for="question4" class="question">Pregunta 4:</label>
-          <div class="form-group">
-            <label>  ¿Les resulta atractivo el producto?</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="atraccion" id="atr1" value="Definitivamente">
-                <label class="form-check-label" for="atr1">
-                    Definitivamente
-                </label>
+            <label for="question4" class="question">Pregunta 4:</label>
+            <div class="forms-grupos">
+              <p><b>¿Les resulta atractivo el producto?</b></p>
+              <input type="range" class="slider accent" id="satisfactionRange_4" name="satisfactionRange_4" min="1" max="5">
+              <div class="d-flex justify-content-between">
+                  <span>Muy poco</span>
+                  <span class="spanDerecha">Mucho</span>
+              </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="atraccion" id="atr2" value="Algo atractivo">
-                <label class="form-check-label" for="atr2">
-                  Algo Atractivo
-              </label>
-          </div>
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="atraccion" id="atr3" value="Indiferente">
-              <label class="form-check-label" for="atr3">
-                  Indiferente
-              </label>
-          </div>
-          <div class="form-check">
-              <input class="form-check-input" type="radio" name="atraccion" id="atr4" value="No">
-              <label class="form-check-label" for="atr4">
-                  No
-              </label>
-          </div>
         </div>
-      </div>
         <!-- Pregunta 5 -->
         <div class="question-container">
-          <label for="question5" class="question">Pregunta 5:</label>
-          <div class="form-group">
-            <label>¿El producto cumplio tus expectativas?</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="expectativa" id="exp1" value="Totalmente">
-                <label class="form-check-label" for="exp1">
-                    Totalmente
-                </label>
+            <label for="question5" class="question">Pregunta 5:</label>
+            <div class="forms-grupos">
+              <p><b>¿El producto cumplió tus expectativas?</b></p>
+              <input type="range" class="slider accent" id="satisfactionRange_5" name="satisfactionRange_5" min="1" max="5">
+              <div class="d-flex justify-content-between">
+                  <span>Muy poco</span>
+                  <span class="spanDerecha">Mucho</span>
+              </div>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="expectativa" id="exp2" value="Parcialmente">
-                <label class="form-check-label" for="exp2">
-                    Parcialmente
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="expectativa" id="exp3" value="Poco">
-                <label class="form-check-label" for="exp3">
-                    Poco
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="expectativa" id="exp4" value="No cumplio">
-                <label class="form-check-label" for="exp4">
-                    No cumplio
-                </label>
-            </div>
-          </div>
         </div>
         <!-- Pregunta 6 -->
         <div class="question-container">
-          <label for="question6" class="question">Pregunta 6:</label>
-          <div class="form-group">
-            <label>¿El producto te resulto seco o humedo ?</label>
+            <label for="question6" class="question">Pregunta 6:</label>
+            <div class="form-group">
+            <label>¿El producto te pareció húmedo o seco?</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="humedad" id="hum1" value="Muy humedo">
-                <label class="form-check-label" for="hum1">
-                    Muy humedo
+                <input class="form-check-input" type="radio" name="humedad" id="con1" value="Demasiado" required>
+                <label class="form-check-label" for=con1">
+                    Humedo
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="humedad" id="hum2" value="Algo humedo">
-                <label class="form-check-label" for="hum2">
-                    Algo humedo
+                <input class="form-check-input" type="radio" name="humedad" id="con2" value="Mucho">
+                <label class="form-check-label" for="con2">
+                    Seco
                 </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="humedad" id="hum3" value="Algo seco">
-                <label class="form-check-label" for="hum3">
-                    Algo seco
-                </label>
             </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="expectativa" id="hum4" value="Muy seco">
-                <label class="form-check-label" for="hum4">
-                    Muy seco
-                </label>
-            </div>
-          </div>
         </div>
         <!-- Pregunta 7 -->
         <div class="question-container">
@@ -239,7 +381,7 @@
           <div class="form-group">
             <label>¿Que sabores percibes en el producto?</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="sabores" id="sab1" value="Dulce">
+                <input class="form-check-input" type="radio" name="sabores" id="sab1" value="Dulce" required>
                 <label class="form-check-label" for="sab1">
                     Dulce
                 </label>
@@ -268,8 +410,9 @@
       <div class="question-container">
         <label for="question8" class="question">Pregunta 8:</label>
         <div class="form-group">
+          <label>¿Que otros sabores percibiste?</label>
           <!-- Input de texto agregado aquí -->
-          <input type="text" id="respuesta7" name="respuesta7" class="input-texto" placeholder="Escribe tu respuesta aquí">
+          <input type="text" id="respuesta7" name="respuesta7" class="input-texto" placeholder="Escribe tu respuesta aquí" required>
         </div>
       </div>
       
